@@ -140,17 +140,162 @@ class OpcClient:
         # Estado
         self.client: Client | None = None
         self._aliases: dict[str,str] = {}
-        self.nodes: dict[str,Any] = {}
+        self._nodes: dict[str,Any] = {}
 
-    @property
-    def is_connected(self) -> bool:
-        '''Indica si hay una conexion OPC UA activa'''
-        return self.client is not None
+    def connect(self, retries: int = 3, backoff_s: float = 1.0) -> bool:
+        """
+        Establece la conexión con el servidor OPC UA.
 
-    @property
-    def aliases(self) -> dict:
-        '''Devuelve los alias cargados de nodos conocidos'''
-        return self._aliases
+        Returns
+        -------
+        bool
+            True si la conexión se estableció o ya estaba activa.
+
+        Raises
+        ------
+        ConnectionError
+            Si no se puede establecer la conexión con el endpoint
+            especificado en `self.endpoint_url`.
+        """
+        if self.is_connected:
+            logger.info('Conexion ya establecida a %s',self.endpoint_url)
+            return True
+        
+        last_exc: Exception | None = None
+        for attempt in range(1,retries+1):
+            try:
+                tmp = Client(self.endpoint_url)
+                tmp.connect()
+                self.client = tmp
+                logger.info("Conexion existosa a %s", self.endpoint_url)
+                return True
+            except Exception as exc:
+                last_exc = exc
+                if attempt < retries:
+                    logger.warning("Intento %d/%d falló: %s", attempt, retries, exc)
+                    time.sleep(backoff_s * attempt)
+                else:
+                    logger.error("Error al conectar a %s tras %d intentos", self.endpoint_url, retries)
+                    # Asegura estado consistente
+                    self.client = None
+        raise ConnectionError(self.endpoint_url, "Se han agotado los intentos de conexión.", original=last_exc)
+
+    def disconnect(self) -> None:
+        """
+        Cierra la conexión con el servidor OPC UA.
+
+        Si existe un cliente activo, lo desconecta y lo establece en None.
+        """
+        if not self.is_connected:
+            logger.info("Desconexión solicitada sin conexión activa.")
+            return
+        try:
+            uac = getattr(self.client, "uaclient", None)
+            if uac and hasattr(uac, "disconnect_socket"):
+                self.client.disconnect()
+                logger.info("Cliente desconectado de %s", self.endpoint_url)
+            else:
+                logger.warning("Cliente sin socket inicializado; nada que desconectar.")
+        except Exception as exc:
+            logger.exception("Error al desconectar: %s", exc)
+        finally:
+            self.client = None
+            self._nodes.clear() # Los nodos resueltos quedan ligados a la sesion
+
+    def read_node(self, alias: str) -> Any:
+        """
+        Lee el valor actual de un nodo.
+
+        Parameters
+        ----------
+        alias : str
+            BrowseName del nodo.
+
+        Returns
+        -------
+        Any
+            Valor leido del nodo.
+
+        Raises
+        ------
+        NodeReadError
+            Si ocurre un fallo al acceder o leer el nodo.
+        """
+        if not self.is_connected: raise OpcClientError("Cliente no conectado")
+        t0 = time.perf_counter()
+        try:
+            val = self._get_node_by_alias(alias).get_value()
+            logger.debug("Leído %s => %r (%.2f ms)", alias, val, (time.perf_counter()-t0)*1000)
+            return val
+        except Exception as exc:
+            raise NodeReadError(f"Error de lectura de nodo: {alias}",original=exc) from exc    
+
+    def write_node(self, alias: str, value: Any) -> None:
+        """
+        Escribe un valor en un nodo OPC UA.
+
+        Parameters
+        ----------
+        alias : str
+            BrowseName del nodo.
+        value : Any
+            Valor a escribir. Debe ser compatible con el tipo del nodo.
+
+        Raises
+        ------
+        NodeWriteError
+            Si ocurre un fallo al escribir en el nodo. Puede deberse a:
+            - Error de la librería OPC UA (capturado como `UaError`).
+            - Error de transporte o sistema (timeout, desconexión, etc.).
+            El detalle original estará en `e.original`.
+        """
+        if not self.is_connected:
+            raise OpcClientError("Cliente no conectado")
+        try:
+            node = self._get_node_by_alias(alias)
+            node.set_value(value)
+            logger.debug("Escrito %s <= %r", alias, value)
+        except UaError as exc:
+            raise NodeWriteError(alias, f"Error UA al escribir", original=exc) from exc
+        except Exception as exc:
+            # Otros fallos (transporte, timeout, etc.)
+            raise NodeWriteError(alias, "Error de transporte al escribir", original=exc) from exc
+
+    def load_aliases_from_json(self,file_path: str) -> None:
+        """
+        Carga los browsename y nodeid conocidos desde un JSON exportado
+        directamente del servidor.
+
+        Parameters
+        ----------
+        file_path : str
+            Ruta al archivo JSON.
+
+        Raises
+        ------
+        OpcClientError
+            Si el archivo no existe, no puede abrirse, o el contenido es inválido.
+        """
+
+        # Se invalida cache de nodos si se cambia de alias
+        self._nodes.clear()
+        try:
+            logger.info("Inicio de carga de alias desde %s", file_path)
+            with open(Path(file_path), "r", encoding="utf-8") as archivo:
+                self._aliases = json.load(archivo)
+            logger.info("Cargados %d alias desde %s", len(self._aliases), file_path)
+
+        except FileNotFoundError as exc:
+            self._aliases = {}
+            raise OpcClientError(f"No se encuentra el JSON de alias en {file_path}") from exc
+
+        except json.JSONDecodeError as exc:
+            self._aliases = {}
+            raise OpcClientError(f"El archivo {file_path} no contiene JSON válido") from exc
+
+        except Exception as exc:
+            self._aliases = {}
+            raise OpcClientError(f"Error inesperado al leer {file_path}") from exc
 
     def __enter__(self) -> Self:
         """
@@ -190,156 +335,51 @@ class OpcClient:
 
         self.disconnect()
 
-    def connect(self, retries: int = 3, backoff_s: float = 1.0) -> bool:
-        """
-        Establece la conexión con el servidor OPC UA.
-
-        Returns
-        -------
-        bool
-            True si la conexión se estableció o ya estaba activa.
-
-        Raises
-        ------
-        ConnectionError
-            Si no se puede establecer la conexión con el endpoint
-            especificado en `self.endpoint_url`.
-        """
-        if self.is_connected:
-            logger.info('Conexion ya establecida a %s',self.endpoint_url)
-            return True
-        
-        last_exc: Exception | None = None
-        for attempt in range(1,retries+1):
-            try:
-                tmp = Client(self.endpoint_url)
-                tmp.connect()
-                self.client = tmp
-                logger.info("Conexion existosa a %s", self.endpoint_url)
-                return True
-            except Exception as exc:
-                last_exc = exc
-                if attempt < retries:
-                    logger.warning("Intento %d/%d falló: %s", attempt, retries, exc)
-                    time.sleep(backoff_s * attempt)
-                else:
-                    # Asegura estado consistente
-                    logger.exception('Error al conectar a %s: %s', self.endpoint_url,exc)
-                    self.client = None
-        raise ConnectionError(self.endpoint_url, "Se han agotado los intentos de conexión.", original=last_exc)
-
-    def disconnect(self) -> None:
-        """
-        Cierra la conexión con el servidor OPC UA.
-
-        Si existe un cliente activo, lo desconecta y lo establece en None.
-        """
-        if not self.is_connected:
-            logger.info("Desconexión solicitada sin conexión activa.")
-            return
-        try:
-            uac = getattr(self.client, "uaclient", None)
-            if uac and hasattr(uac, "disconnect_socket"):
-                self.client.disconnect()
-                logger.info("Cliente desconectado de %s", self.endpoint_url)
-            else:
-                logger.warning("Cliente sin socket inicializado; nada que desconectar.")
-        except Exception as exc:
-            logger.exception("Error al desconectar: %s", exc)
-        finally:
-            self.client = None
-
-    def read_node(self, nodeid: str) -> Any:
-        """
-        Lee el valor actual de un nodo.
+    def _get_node_by_alias(self,alias:str) -> Any: 
+        '''
+        Metodo privado que devuelve un nodo resuelto dado a traves
+        de su alias. Puede resolverlo directamente o obtenerlo de la memoria
+        de la instancia si ya se ha hecho antes.
 
         Parameters
         ----------
-        nodeid : str
-            Identificador del nodo en formato OPC UA (p. ej. "ns=2;i=3").
+        alias : str
+            BrowseName del nodo para acceder al NodeId y resolver el nodo.
 
-        Returns
-        -------
-        Any
-            Valor leı́do del nodo.
-
-        Raises
-        ------
-        NodeReadError
-            Si ocurre un fallo al acceder o leer el nodo.
-        """
-        if not self.is_connected: raise OpcClientError("Cliente no conectado")
-        t0 = time.perf_counter()
-        try:
-            val = self.client.get_node(nodeid).get_value()
-            logger.debug("Leído %s => %r (%.2f ms)", nodeid, val, (time.perf_counter()-t0)*1000)
-            return val
-        except Exception as exc:
-            raise NodeReadError(nodeid,"Error de accesos a nodo",original=exc) from exc    
-
-    def write_node(self, nodeid: str, value: Any) -> None:
-        """
-        Escribe un valor en un nodo OPC UA.
-
-        Parameters
-        ----------
-        nodeid : str
-            Identificador del nodo en formato OPC UA (p. ej. "ns=2;i=3").
-        value : Any
-            Valor a escribir. Debe ser compatible con el tipo del nodo.
-
-        Raises
-        ------
-        NodeWriteError
-            Si ocurre un fallo al escribir en el nodo. Puede deberse a:
-            - Error de la librería OPC UA (capturado como `UaError`).
-            - Error de transporte o sistema (timeout, desconexión, etc.).
-            El detalle original estará en `e.original`.
-        """
+        Raise
+        -----
+        OpcClientError: 
+            Si el cliente no esta conectado, el alias es desconocido
+            o un error de acceso al nodo.
+        '''                
         if not self.is_connected:
             raise OpcClientError("Cliente no conectado")
-        try:
-            node = self.client.get_node(nodeid)
-            node.set_value(value)
-            logger.debug("Escrito %s <= %r", nodeid, value)
-        except UaError as exc:
-            raise NodeWriteError(nodeid, f"Error UA al escribir", original=exc) from exc
-        except Exception as exc:
-            # Otros fallos (transporte, timeout, etc.)
-            raise NodeWriteError(nodeid, "Error de transporte al escribir", original=exc) from exc
+        if alias not in self.aliases:
+            raise OpcClientError(f"Alias desconocido: {alias}")
+        
+        # Consulta a memoria interna
+        node = self._nodes.get(alias)
 
-    def load_aliases_from_json(self,file_path: str) -> None:
-        """
-        Carga los browsename y nodeid conocidos desde un JSON exportado
-        directamente del servidor.
+        # Si no se ha encontrado nada: se resuelve y se guarda
+        if node is None:
+            nodeid = self._aliases[alias]
+            try:
+                node = self.client.get_node(nodeid)
+                self._nodes[alias] = node
+            except Exception as exc:
+                raise OpcClientError(f"Error al acceder al nodo {alias}:{nodeid}") from exc
+        return node
 
-        Parameters
-        ----------
-        file_path : str
-            Ruta al archivo JSON.
+    @property
+    def is_connected(self) -> bool:
+        '''Indica si hay una conexion OPC UA activa'''
+        return self.client is not None
 
-        Raises
-        ------
-        OpcClientError
-            Si el archivo no existe, no puede abrirse, o el contenido es inválido.
-        """
-        try:
-            logger.info("Inicio de carga de alias desde %s", file_path)
-            with open(Path(file_path), "r", encoding="utf-8") as archivo:
-                self._aliases = json.load(archivo)
-            logger.info("Cargados %d alias desde %s", len(self._aliases), file_path)
-
-        except FileNotFoundError as exc:
-            self._aliases = {}
-            raise OpcClientError(f"No se encuentra el JSON de alias en {file_path}") from exc
-
-        except json.JSONDecodeError as exc:
-            self._aliases = {}
-            raise OpcClientError(f"El archivo {file_path} no contiene JSON válido") from exc
-
-        except Exception as exc:
-            self._aliases = {}
-            raise OpcClientError(f"Error inesperado al leer {file_path}") from exc
+    @property
+    def aliases(self) -> dict[str,str]:
+        '''Devuelve los alias cargados de nodos conocidos'''
+        return self._aliases
+    
 
 def setup_logging(level: str | None, file_path: str | None = None) -> None:
     """
@@ -408,18 +448,18 @@ if __name__ == "__main__":
             print("\nLeo")
 
             # Carga de alias conocidos
-            cli.load_aliases_from_json (Path(file_dir.parent)/"nodes.json")
+            cli.load_aliases_from_json(Path(file_dir.parent)/"nodes.json")
             nodes=cli.aliases
 
             # Leer nodos
-            for signal,nodeid in nodes.items():
-                print(f"Señal: {signal}\t\tValor: {cli.read_node(nodeid)}")
+            for alias in nodes.keys():
+                print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")
 
             print("\nEscribo")
 
             # Escribir nodo
-            signal="Espesor_Medido"
+            alias="Espesor_Medido"
             espesores = [3.5,4.2,5,7]
 
-            cli.write_node(nodes[signal], random.choice(espesores))
-            print(f"Señal: {signal}\t\tValor: {cli.read_node(nodes[signal])}")
+            cli.write_node(alias, random.choice(espesores))
+            print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")

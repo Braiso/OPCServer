@@ -8,6 +8,7 @@ y este proyecto sigue [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 - Caché alias de nodos conocidos.
 - Test de cache de alias conocidos.
+- Cache lazy de nodos resueltos
 
 ### Changed
 - Implementacion de propiedad ``is_connected``
