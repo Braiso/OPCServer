@@ -121,17 +121,36 @@ class OpcClient:
         endpoint_url : str
             URL del servidor OPC UA al que se intentará conectar,
             en formato opc.tcp (por ejemplo: "opc.tcp://127.0.0.1:4840").
+
+        Attributes
+        ----------
+        endpoint_url : str
+            URL de conexión fija del cliente (no debe cambiar tras la construcción).
+        client : Client or None
+            Instancia de `opcua.Client` activa si existe conexión,
+            o `None` si el cliente está desconectado.
+        aliases : dict[str, str]
+            Alias de nodos conocidos.
+        nodes: dict[str,Any]
+            Nodos conocidos resueltos.        
         """
 
         # Configuracion fija
-        self.endpoint_url = endpoint_url
+        self.endpoint_url: str = endpoint_url
         # Estado
         self.client: Client | None = None
+        self._aliases: dict[str,str] = {}
+        self.nodes: dict[str,Any] = {}
 
     @property
     def is_connected(self) -> bool:
         '''Indica si hay una conexion OPC UA activa'''
         return self.client is not None
+
+    @property
+    def aliases(self) -> dict:
+        '''Devuelve los alias cargados de nodos conocidos'''
+        return self._aliases
 
     def __enter__(self) -> Self:
         """
@@ -186,7 +205,7 @@ class OpcClient:
             Si no se puede establecer la conexión con el endpoint
             especificado en `self.endpoint_url`.
         """
-        if self.client:
+        if self.is_connected:
             logger.info('Conexion ya establecida a %s',self.endpoint_url)
             return True
         
@@ -215,7 +234,7 @@ class OpcClient:
 
         Si existe un cliente activo, lo desconecta y lo establece en None.
         """
-        if not self.client:
+        if not self.is_connected:
             logger.info("Desconexión solicitada sin conexión activa.")
             return
         try:
@@ -249,7 +268,7 @@ class OpcClient:
         NodeReadError
             Si ocurre un fallo al acceder o leer el nodo.
         """
-        if not self.client: raise OpcClientError("Cliente no conectado")
+        if not self.is_connected: raise OpcClientError("Cliente no conectado")
         t0 = time.perf_counter()
         try:
             val = self.client.get_node(nodeid).get_value()
@@ -277,17 +296,50 @@ class OpcClient:
             - Error de transporte o sistema (timeout, desconexión, etc.).
             El detalle original estará en `e.original`.
         """
-        if not self.client:
+        if not self.is_connected:
             raise OpcClientError("Cliente no conectado")
         try:
             node = self.client.get_node(nodeid)
             node.set_value(value)
             logger.debug("Escrito %s <= %r", nodeid, value)
-        except UaError  as exc:
+        except UaError as exc:
             raise NodeWriteError(nodeid, f"Error UA al escribir", original=exc) from exc
         except Exception as exc:
             # Otros fallos (transporte, timeout, etc.)
             raise NodeWriteError(nodeid, "Error de transporte al escribir", original=exc) from exc
+
+    def load_aliases_from_json(self,file_path: str) -> None:
+        """
+        Carga los browsename y nodeid conocidos desde un JSON exportado
+        directamente del servidor.
+
+        Parameters
+        ----------
+        file_path : str
+            Ruta al archivo JSON.
+
+        Raises
+        ------
+        OpcClientError
+            Si el archivo no existe, no puede abrirse, o el contenido es inválido.
+        """
+        try:
+            logger.info("Inicio de carga de alias desde %s", file_path)
+            with open(Path(file_path), "r", encoding="utf-8") as archivo:
+                self._aliases = json.load(archivo)
+            logger.info("Cargados %d alias desde %s", len(self._aliases), file_path)
+
+        except FileNotFoundError as exc:
+            self._aliases = {}
+            raise OpcClientError(f"No se encuentra el JSON de alias en {file_path}") from exc
+
+        except json.JSONDecodeError as exc:
+            self._aliases = {}
+            raise OpcClientError(f"El archivo {file_path} no contiene JSON válido") from exc
+
+        except Exception as exc:
+            self._aliases = {}
+            raise OpcClientError(f"Error inesperado al leer {file_path}") from exc
 
 def setup_logging(level: str | None, file_path: str | None = None) -> None:
     """
@@ -342,10 +394,6 @@ if __name__ == "__main__":
     file_dir= Path (__file__).resolve()
     log_path = Path(file_dir.parent) / "client.log"
 
-    # JSON creado a partir de nodos de servidor    
-    with open(Path(file_dir.parent)/"nodes.json","r",encoding="utf-8") as archivo:
-        nodes = json.load(archivo)
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", default=endpoint)
     parser.add_argument("--log",default=log_path)
@@ -358,6 +406,10 @@ if __name__ == "__main__":
     print("Me conecto")
     with OpcClient(args.url) as cli:
             print("\nLeo")
+
+            # Carga de alias conocidos
+            cli.load_aliases_from_json (Path(file_dir.parent)/"nodes.json")
+            nodes=cli.aliases
 
             # Leer nodos
             for signal,nodeid in nodes.items():

@@ -1060,3 +1060,380 @@ ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya
 2025-09-06 15:54:33,672 INFO opcua.client.ua_client.Socket: Thread ended
 2025-09-06 15:54:33,673 INFO opcua.client.ua_client.Socket: Done closing socket: Receiving thread terminated, socket disconnected
 2025-09-06 15:54:33,674 INFO __main__: Cliente desconectado de opc.tcp://localhost:4841
+2025-09-07 09:25:18,770 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 09:25:18,783 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 09:25:22,856 WARNING __main__: Intento 1/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 09:25:23,860 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 09:25:27,983 WARNING __main__: Intento 2/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 09:25:29,984 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 09:25:34,063 ERROR __main__: Error al conectar a opc.tcp://localhost:4841: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+Traceback (most recent call last):
+  File "J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opcua_client_clas.py", line 211, in connect
+    tmp.connect()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 272, in connect
+    self.connect_socket()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 307, in connect_socket
+    self.uaclient.connect_socket(self.server_url.hostname, self.server_url.port)
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 266, in connect_socket
+    return self._uasocket.connect_socket(host, port)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 155, in connect_socket
+    sock = socket.create_connection((host, port), timeout=self.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 850, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 09:26:06,251 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 09:26:06,253 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 09:26:08,295 INFO opcua.client.ua_client.Socket: Thread started
+2025-09-07 09:26:08,295 INFO opcua.uaprotocol: received header: Header(type:b'ACK', chunk_type:b'F', body_size:20, channel:0)
+2025-09-07 09:26:08,296 INFO opcua.client.ua_client.Socket: open_secure_channel
+2025-09-07 09:26:08,297 INFO opcua.uaprotocol: received header: Header(type:b'OPN', chunk_type:b'F', body_size:123, channel:6)
+2025-09-07 09:26:08,298 INFO opcua.client.ua_client: create_session
+2025-09-07 09:26:08,299 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:530, channel:6)
+2025-09-07 09:26:08,300 INFO opcua.client.ua_client: activate_session
+2025-09-07 09:26:08,301 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:84, channel:6)
+2025-09-07 09:26:08,302 INFO __main__: Conexion existosa a opc.tcp://localhost:4841
+2025-09-07 09:26:08,303 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,304 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,305 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,307 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,308 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,309 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,310 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,311 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,312 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,313 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,314 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,315 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,316 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,317 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,318 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,318 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,319 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,320 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,321 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,322 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,324 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,325 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,326 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,327 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,328 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,329 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,330 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,331 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,332 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,333 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,334 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,335 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,336 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,336 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,337 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,338 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,339 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,340 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,342 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,343 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,344 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,345 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,346 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,347 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,348 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,348 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,349 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,350 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,351 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,352 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 09:26:08,353 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,354 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:52, channel:6)
+2025-09-07 09:26:08,354 INFO opcua.client.ua_client: read
+2025-09-07 09:26:08,355 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 09:26:08,357 INFO opcua.client.ua_client: close_session
+2025-09-07 09:26:08,358 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:40, channel:6)
+2025-09-07 09:26:08,358 INFO opcua.client.ua_client.Socket: close_secure_channel
+2025-09-07 09:26:08,359 INFO opcua.client.ua_client.Socket: Request to close socket received
+2025-09-07 09:26:08,359 INFO opcua.client.ua_client.Socket: Socket closed, waiting for receiver thread to terminate...
+2025-09-07 09:26:08,360 INFO opcua.client.ua_client.Socket: Socket has closed connection
+2025-09-07 09:26:08,361 INFO opcua.client.ua_client.Socket: Cancelling request 32
+2025-09-07 09:26:08,361 INFO opcua.client.ua_client.Socket: Thread ended
+2025-09-07 09:26:08,362 INFO opcua.client.ua_client.Socket: Done closing socket: Receiving thread terminated, socket disconnected
+2025-09-07 09:26:08,363 INFO __main__: Cliente desconectado de opc.tcp://localhost:4841
+2025-09-07 09:34:15,170 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 09:34:15,172 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 09:34:17,233 INFO opcua.client.ua_client.Socket: Thread started
+2025-09-07 09:34:17,235 INFO opcua.uaprotocol: received header: Header(type:b'ACK', chunk_type:b'F', body_size:20, channel:0)
+2025-09-07 09:34:17,236 INFO opcua.client.ua_client.Socket: open_secure_channel
+2025-09-07 09:34:17,241 INFO opcua.uaprotocol: received header: Header(type:b'OPN', chunk_type:b'F', body_size:123, channel:7)
+2025-09-07 09:34:17,243 INFO opcua.client.ua_client: create_session
+2025-09-07 09:34:17,247 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:530, channel:7)
+2025-09-07 09:34:17,251 INFO opcua.client.ua_client: activate_session
+2025-09-07 09:34:17,254 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:84, channel:7)
+2025-09-07 09:34:17,255 INFO __main__: Conexion existosa a opc.tcp://localhost:4841
+2025-09-07 09:34:17,257 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,260 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,262 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,266 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,269 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,270 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,272 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,273 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,275 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,276 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,278 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,280 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,288 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,314 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,323 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,324 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,325 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,326 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,327 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,329 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,330 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,331 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,333 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,335 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,336 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,337 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,339 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,340 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,341 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,342 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,343 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,344 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,344 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,346 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,347 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,348 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,349 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,350 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,351 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,352 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,353 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,354 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,355 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,355 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,356 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,357 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,357 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,358 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,359 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,360 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:7)
+2025-09-07 09:34:17,361 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,361 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:52, channel:7)
+2025-09-07 09:34:17,362 INFO opcua.client.ua_client: read
+2025-09-07 09:34:17,364 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:7)
+2025-09-07 09:34:17,365 INFO opcua.client.ua_client: close_session
+2025-09-07 09:34:17,365 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:40, channel:7)
+2025-09-07 09:34:17,366 INFO opcua.client.ua_client.Socket: close_secure_channel
+2025-09-07 09:34:17,367 INFO opcua.client.ua_client.Socket: Request to close socket received
+2025-09-07 09:34:17,368 INFO opcua.client.ua_client.Socket: Socket closed, waiting for receiver thread to terminate...
+2025-09-07 09:34:17,368 INFO opcua.client.ua_client.Socket: Socket has closed connection
+2025-09-07 09:34:17,369 INFO opcua.client.ua_client.Socket: Cancelling request 32
+2025-09-07 09:34:17,369 INFO opcua.client.ua_client.Socket: Thread ended
+2025-09-07 09:34:17,370 INFO opcua.client.ua_client.Socket: Done closing socket: Receiving thread terminated, socket disconnected
+2025-09-07 09:34:17,370 INFO __main__: Cliente desconectado de opc.tcp://localhost:4841
+2025-09-07 10:34:46,324 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 10:34:46,337 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 10:34:48,362 INFO opcua.client.ua_client.Socket: Thread started
+2025-09-07 10:34:48,364 INFO opcua.uaprotocol: received header: Header(type:b'ACK', chunk_type:b'F', body_size:20, channel:0)
+2025-09-07 10:34:48,366 INFO opcua.client.ua_client.Socket: open_secure_channel
+2025-09-07 10:34:48,371 INFO opcua.uaprotocol: received header: Header(type:b'OPN', chunk_type:b'F', body_size:123, channel:8)
+2025-09-07 10:34:48,374 INFO opcua.client.ua_client: create_session
+2025-09-07 10:34:48,380 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:530, channel:8)
+2025-09-07 10:34:48,385 INFO opcua.client.ua_client: activate_session
+2025-09-07 10:34:48,390 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:84, channel:8)
+2025-09-07 10:34:48,394 INFO __main__: Conexion existosa a opc.tcp://localhost:4841
+2025-09-07 10:34:48,397 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,401 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,408 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,412 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,415 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,417 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,419 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,422 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,425 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,428 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,431 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,433 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,436 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,440 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,442 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,444 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,445 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,447 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,449 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,449 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,452 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,453 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,455 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,457 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,458 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,460 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,461 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,462 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,464 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,465 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,467 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,468 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,470 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,472 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,474 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,475 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,476 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,478 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,479 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,481 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,483 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,484 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,486 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,488 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,489 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,491 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,492 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,494 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,496 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,497 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:8)
+2025-09-07 10:34:48,499 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,500 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:52, channel:8)
+2025-09-07 10:34:48,501 INFO opcua.client.ua_client: read
+2025-09-07 10:34:48,503 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:8)
+2025-09-07 10:34:48,504 INFO opcua.client.ua_client: close_session
+2025-09-07 10:34:48,506 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:40, channel:8)
+2025-09-07 10:34:48,507 INFO opcua.client.ua_client.Socket: close_secure_channel
+2025-09-07 10:34:48,508 INFO opcua.client.ua_client.Socket: Request to close socket received
+2025-09-07 10:34:48,509 INFO opcua.client.ua_client.Socket: Socket closed, waiting for receiver thread to terminate...
+2025-09-07 10:34:48,510 INFO opcua.client.ua_client.Socket: Socket has closed connection
+2025-09-07 10:34:48,511 INFO opcua.client.ua_client.Socket: Cancelling request 32
+2025-09-07 10:34:48,511 INFO opcua.client.ua_client.Socket: Thread ended
+2025-09-07 10:34:48,512 INFO opcua.client.ua_client.Socket: Done closing socket: Receiving thread terminated, socket disconnected
+2025-09-07 10:34:48,513 INFO __main__: Cliente desconectado de opc.tcp://localhost:4841
+2025-09-07 11:33:18,325 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 11:33:18,328 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:22,412 WARNING __main__: Intento 1/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:33:23,413 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:27,488 WARNING __main__: Intento 2/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:33:29,490 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:33,575 ERROR __main__: Error al conectar a opc.tcp://localhost:4841: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+Traceback (most recent call last):
+  File "J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\opcua_client.py", line 216, in connect
+    tmp.connect()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 272, in connect
+    self.connect_socket()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 307, in connect_socket
+    self.uaclient.connect_socket(self.server_url.hostname, self.server_url.port)
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 266, in connect_socket
+    return self._uasocket.connect_socket(host, port)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 155, in connect_socket
+    sock = socket.create_connection((host, port), timeout=self.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 850, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:33:41,310 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 11:33:41,312 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:45,377 WARNING __main__: Intento 1/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:33:46,378 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:50,435 WARNING __main__: Intento 2/3 falló: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:33:52,437 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:33:56,485 ERROR __main__: Error al conectar a opc.tcp://localhost:4841: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+Traceback (most recent call last):
+  File "J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\opcua_client.py", line 216, in connect
+    tmp.connect()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 272, in connect
+    self.connect_socket()
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\client.py", line 307, in connect_socket
+    self.uaclient.connect_socket(self.server_url.hostname, self.server_url.port)
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 266, in connect_socket
+    return self._uasocket.connect_socket(host, port)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\site-packages\opcua\client\ua_client.py", line 155, in connect_socket
+    sock = socket.create_connection((host, port), timeout=self.timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 865, in create_connection
+    raise exceptions[0]
+  File "c:\Users\Brais\AppData\Local\Programs\Python\Python312\Lib\socket.py", line 850, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión
+2025-09-07 11:34:09,616 INFO __main__: Arrancando OpcClient v0.1.0
+2025-09-07 11:34:09,618 INFO opcua.client.ua_client.Socket: opening connection
+2025-09-07 11:34:11,655 INFO opcua.client.ua_client.Socket: Thread started
+2025-09-07 11:34:11,656 INFO opcua.uaprotocol: received header: Header(type:b'ACK', chunk_type:b'F', body_size:20, channel:0)
+2025-09-07 11:34:11,656 INFO opcua.client.ua_client.Socket: open_secure_channel
+2025-09-07 11:34:11,658 INFO opcua.uaprotocol: received header: Header(type:b'OPN', chunk_type:b'F', body_size:123, channel:6)
+2025-09-07 11:34:11,658 INFO opcua.client.ua_client: create_session
+2025-09-07 11:34:11,660 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:530, channel:6)
+2025-09-07 11:34:11,661 INFO opcua.client.ua_client: activate_session
+2025-09-07 11:34:11,662 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:84, channel:6)
+2025-09-07 11:34:11,663 INFO __main__: Conexion existosa a opc.tcp://localhost:4841
+2025-09-07 11:34:11,663 INFO __main__: Inicio de carga de alias desde J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\nodes.json
+2025-09-07 11:34:11,668 INFO __main__: Cargados 25 alias desde J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\nodes.json
+2025-09-07 11:34:11,668 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,669 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,670 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,671 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,672 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,673 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,673 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,675 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,676 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,677 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,678 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,679 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,680 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,681 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,683 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,684 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,685 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,686 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,687 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,688 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,688 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,689 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,690 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,692 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,693 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,694 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,695 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,696 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,696 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,698 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,699 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,700 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,701 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,702 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,703 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,704 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,704 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,705 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,706 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,707 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,708 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,709 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,710 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,711 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,712 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,713 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,714 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,715 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,716 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,717 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:63, channel:6)
+2025-09-07 11:34:11,718 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,719 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:52, channel:6)
+2025-09-07 11:34:11,720 INFO opcua.client.ua_client: read
+2025-09-07 11:34:11,721 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:70, channel:6)
+2025-09-07 11:34:11,722 INFO opcua.client.ua_client: close_session
+2025-09-07 11:34:11,723 INFO opcua.uaprotocol: received header: Header(type:b'MSG', chunk_type:b'F', body_size:40, channel:6)
+2025-09-07 11:34:11,723 INFO opcua.client.ua_client.Socket: close_secure_channel
+2025-09-07 11:34:11,724 INFO opcua.client.ua_client.Socket: Request to close socket received
+2025-09-07 11:34:11,725 INFO opcua.client.ua_client.Socket: Socket closed, waiting for receiver thread to terminate...
+2025-09-07 11:34:11,726 INFO opcua.client.ua_client.Socket: Socket has closed connection
+2025-09-07 11:34:11,727 INFO opcua.client.ua_client.Socket: Cancelling request 32
+2025-09-07 11:34:11,727 INFO opcua.client.ua_client.Socket: Thread ended
+2025-09-07 11:34:11,728 INFO opcua.client.ua_client.Socket: Done closing socket: Receiving thread terminated, socket disconnected
+2025-09-07 11:34:11,728 INFO __main__: Cliente desconectado de opc.tcp://localhost:4841
