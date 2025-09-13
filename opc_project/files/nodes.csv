@@ -1,0 +1,2 @@
+alias,nodeid,datatype,initial,folder,writable
+Realizar_Vision,“”.”SALIDAS”.”Realizar_Vision”,Boolean,false,SALIDAS,1

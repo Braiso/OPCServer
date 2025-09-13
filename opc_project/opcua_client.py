@@ -5,9 +5,23 @@ from types import TracebackType
 from typing import Self
 from pathlib import Path
 from opcua.ua.uaerrors import UaError
+from opcua_lib import setup_logging
 
 logger = logging.getLogger(__name__)
 __version__ = "0.1.0"
+
+class SubHandler:
+    """Handler para recibir notificaciones de cambios"""
+    def datachange_notification(self, node, val, data):
+        # No meter trabajo pesado aquí (bloquea el hilo de callbacks)
+        try:
+            bn = node.get_browse_name()
+        except Exception:
+            bn = None
+        print(f"[DataChange] {bn or node}: {val}")
+
+    def event_notification(self, event):
+        print(f"[Event] {event}")
 
 class OpcClientError(RuntimeError):
     """
@@ -25,7 +39,6 @@ class OpcClientError(RuntimeError):
         print("Fallo en cliente OPC:", e)
     """
     pass
-
 
 class ConnectionError(OpcClientError):
     """
@@ -48,7 +61,6 @@ class ConnectionError(OpcClientError):
         super().__init__(f"{message} (endpoint={endpoint})")
         self.endpoint = endpoint
         self.original = original
-
 
 class NodeReadError(OpcClientError):
     """
@@ -102,7 +114,6 @@ class NodeWriteError(OpcClientError):
 Mejor depuración: los logs y trazas muestran claramente que es un error del cliente OPC y no un error genérico de ejecución.
 '''
 
-
 class OpcClient:
 
     """
@@ -112,7 +123,7 @@ class OpcClient:
     conexión, desconexión y gestión del estado de la sesión.
     """
 
-    def __init__(self, endpoint_url: str):
+    def __init__(self, endpoint_url: str)-> None: 
         """
         Inicializa una nueva instancia de OpcClient.
 
@@ -192,7 +203,7 @@ class OpcClient:
         try:
             uac = getattr(self.client, "uaclient", None)
             if uac and hasattr(uac, "disconnect_socket"):
-                self.client.disconnect()
+                self.client.disconnect() # type: ignore
                 logger.info("Cliente desconectado de %s", self.endpoint_url)
             else:
                 logger.warning("Cliente sin socket inicializado; nada que desconectar.")
@@ -228,7 +239,7 @@ class OpcClient:
             logger.debug("Leído %s => %r (%.2f ms)", alias, val, (time.perf_counter()-t0)*1000)
             return val
         except Exception as exc:
-            raise NodeReadError(f"Error de lectura de nodo: {alias}",original=exc) from exc    
+            raise NodeReadError(f"Error de lectura de nodo: {alias}",original=exc) from exc     # type: ignore
 
     def write_node(self, alias: str, value: Any) -> None:
         """
@@ -364,7 +375,7 @@ class OpcClient:
         if node is None:
             nodeid = self._aliases[alias]
             try:
-                node = self.client.get_node(nodeid)
+                node = self.client.get_node(nodeid) # type: ignore
                 self._nodes[alias] = node
             except Exception as exc:
                 raise OpcClientError(f"Error al acceder al nodo {alias}:{nodeid}") from exc
@@ -378,43 +389,7 @@ class OpcClient:
     @property
     def aliases(self) -> dict[str,str]:
         '''Devuelve los alias cargados de nodos conocidos'''
-        return self._aliases
-    
-
-def setup_logging(level: str | None, file_path: str | None = None) -> None:
-    """
-    Configura el sistema de logging de la aplicación.
-
-    Crea un logger básico con salida a consola (`stdout`) y,
-    opcionalmente, a un archivo si se especifica `file_path`.
-    Permite establecer el nivel de logging a través de texto
-    (ej. "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL").
-
-    Parameters
-    ----------
-    level : str, default="INFO"
-        Nivel de logging mínimo a mostrar. Se debe pasar como texto
-        (por ejemplo, "DEBUG", "INFO", etc.). Si no coincide con un
-        nivel válido, se usará `logging.INFO` por defecto.
-    file_path : str or None, default=None
-        Ruta a un archivo donde guardar los logs. Si es `None`,
-        no se crea archivo de log y solo se envía a consola.
-
-    Examples
-    --------
-    >>> setup_logging("DEBUG")
-    >>> setup_logging("WARNING", "app.log")
-    """
-
-    if level:
-        handlers = [logging.StreamHandler(sys.stdout)]
-        if file_path:
-            handlers.append(logging.FileHandler(file_path, encoding="utf-8"))
-        logging.basicConfig(
-            level=getattr(logging, level.upper(), logging.INFO),
-            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-            handlers=handlers,
-    )
+        return self._aliases    
 
 if __name__ == "__main__":
 
@@ -434,32 +409,48 @@ if __name__ == "__main__":
     file_dir= Path (__file__).resolve()
     log_path = Path(file_dir.parent) / "client.log"
 
+    # Argumentos CLI
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", default=endpoint)
     parser.add_argument("--log",default=log_path)
-    parser.add_argument("--level",default="INFO")
+    parser.add_argument("--level",default=None)
     args = parser.parse_args()
 
+    # Configuracion de logging
     setup_logging(args.level, args.log)
     logger.info("Arrancando OpcClient v%s", __version__)
 
-    print("Me conecto")
+    # Inicio sesion cliente
     with OpcClient(args.url) as cli:
-            print("\nLeo")
 
-            # Carga de alias conocidos
-            cli.load_aliases_from_json(Path(file_dir.parent)/"nodes.json")
-            nodes=cli.aliases
+        # Carga de alias conocidos
+        cli.load_aliases_from_json(Path(file_dir.parent)/"nodes.json") # type: ignore
+        nodes=cli.aliases
 
-            # Leer nodos
-            for alias in nodes.keys():
-                print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")
+        try:
+            while True:        
 
-            print("\nEscribo")
+                time.sleep(1)
+        except KeyboardInterrupt:
+            print('Sesion finalizada')
 
-            # Escribir nodo
-            alias="Espesor_Medido"
-            espesores = [3.5,4.2,5,7]
+'''
+    print("\nLeo")
+    
+    # Leer nodos
+    for alias in nodes.keys():
+        print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")
+'''
 
-            cli.write_node(alias, random.choice(espesores))
-            print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")
+'''
+    Prueba de escritura
+
+    print("\nEscribo")
+
+    # Escribir nodo
+    alias="Espesor_Medido"
+    espesores = [3.5,4.2,5,7]
+
+    cli.write_node(alias, random.choice(espesores))
+    print(f"Señal: {alias}\t\tValor: {cli.read_node(alias)}")
+'''

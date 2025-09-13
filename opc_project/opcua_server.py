@@ -1,104 +1,189 @@
-# pip install opcua
-from opcua import Server, ua
-import time, json, os
+from opcua import Server
+from pathlib import Path
+from typing import Any
+from .opcua_lib import setup_logging,build_node_dict
+import time,json,logging,argparse
 
-def build_node_dict(root_node, dic, idx_filter=None):
-    # Recorre recursivamente todos los nodos hijos a partir de root_node
-    # root_node: nodo inicial (por ejemplo, server.get_objects_node())
-    # dic: diccionario donde se guardan los pares {BrowseName: NodeId}
-    # idx_filter: si se indica, solo añade nodos de ese namespace index
+logger = logging.getLogger(__name__)
+__version__ = "0.1.0"
 
-    # Obtener hijos directos del nodo actual
-    children = root_node.get_children()
+class OpcServerError(RuntimeError):
+    """
+    Excepción base para todos los errores relacionados con OpcServer.
 
-    for child in children:
+    Hereda de RuntimeError, pero define un tipo específico para el dominio OPC.
+    Esto permite distinguir fácilmente, en bloques try/except, entre errores
+    de la librería estándar y los que provienen del cliente OPC.
+    """
+    def __init__(self, endpoint: str, message: str, original: Exception | None = None):
+        super().__init__(f"{message} (endpoint={endpoint})")
+        self.endpoint = endpoint
+        self.original = original
+
+class OpcServer:
+
+    '''
+    Servidor OPC UA sencillo.
+
+    Esta clase encapsula las operaciones básicas de un servidor OPC UA:
+    conexón, desconexión y gestión de los nodos.
+
+    '''
+
+    def __init__(self,endpoint_url : str,namespace : str,
+                 files_dir : str, nodes_input_file: str, nodes_output_file: str) -> None:
+        '''
+        Inicializa un una instancia de OpcServer.
+
+        Parameters
+        ----------
+        endpoint_url : str
+            URL del servidor OPC UA.
+        namespace: str
+            Espacio de nombres.
+        files_dir: str
+            Directorio de los archivos de configuracion.
+        nodes_input: str
+            Archivo CSV donde se guarda informacion para la creacion de los nodos.
+        nodes_output: str
+            Archivo JSON con la información para la instanciación de los nodos por parte de los clientes.
+
+        Attributes
+        ----------
+        endpoint_url : str
+        namespace: str
+        files_dir: str
+        nodes_input: str
+        nodes_output: str
+        server = Server or None
+            Instancia del servidor.
+        nodes =  dict[str,Any] or None
+            Nodos creados. Fuente: Archivo CSV    
+        '''
+
+        self._endpoint_url: str = endpoint_url
+        self._namespace : str = namespace
+        self._files_dir : str = files_dir
+        self._nodes_input : str = nodes_input_file
+        self._nodes_output : str = nodes_output_file
+        self._server: Server | None = None
+        self._nodes : dict[str,Any] | None = None
+        self._idx: int | None = None
+
+    def start(self, retries: int = 3, backoff_s:float = 1.0) -> bool:
+        '''
+        Arranca el servidor.
+
+        Parameters
+        ----------
+        retries
+            Numero de reintentos en caso de error de inicio
+        backoff_s
+            Tiempo de espera entre reintentos
+        
+        Returns
+        -------
+        bool
+            True si la conexión se estableció o ya estaba activa.
+
+        Raises
+        ------
+        OpcServerError
+            Si no se puede arrancar el servidor con el endpoint
+            especificado en `self.endpoint_url`.        
+        '''
+        # Comprobar si el servidor esta arrancado
+        if self.is_connected:
+            logger.info(f"Servidor ya arrancado en {self._endpoint_url}")
+            return True
+
+        # Arrancar servidor
+        last_exc : Exception | None = None
+        for attempt in range(1,retries+1):
+            try:
+                self._check_invariants()
+                tmp = Server()
+                tmp.set_endpoint(self._endpoint_url)                 
+                idx = tmp.register_namespace(self._namespace)   
+
+                tmp.start()
+                self._server = tmp
+                self._idx = idx
+
+                logger.info(f"Arranque servidor en {self._endpoint_url} exitoso")
+                self._check_invariants()
+                return True
+            except Exception as exc:
+                last_exc = exc
+                if attempt < retries:
+                    logger.warning("Intento %d/%d falló: %s", attempt, retries, exc)
+                    time.sleep(backoff_s * attempt)
+                else:
+                    logger.error("Error al arrancar a %s tras %d intentos", self._endpoint_url, retries)
+                    # Asegura estado consistente
+                    if tmp is not None:
+                        try:
+                            tmp.stop()
+                        except Exception:
+                            pass
+                    self._server = None                    
+                    self._idx = None
+        self._check_invariants()
+        raise OpcServerError(self._endpoint_url,"Se han agotado los intentos de arranque.",original=last_exc)
+
+    def stop(self) -> bool:
+        '''
+        Detiene el servidor si está en ejecución.
+
+        Returns
+        -------
+        bool
+            True si se detuvo el servidor, False si no estaba en ejecución.
+        '''
+        if self._server is None:
+            return False  # nada que detener
+
         try:
-            # Obtener el nombre legible del nodo
-            browse_name = child.get_browse_name().Name
-            # Convertir NodeId a string (ejemplo: "ns=2;i=3")
-            nodeid_str = child.nodeid.to_string()
+            self._server.stop()
+            logger.info("Servidor detenido en %s", self._endpoint_url)
+        except Exception as exc:
+            logger.warning("Error al detener servidor: %s", exc, exc_info=True)
+        finally:
+            # asegurar estado consistente
+            self._server = None
+            self._idx = None
+        self._check_invariants()
+        return True
 
-            # Comprobar si es Variable y si coincide con el filtro de namespace
-            if child.get_node_class() == ua.NodeClass.Variable:
-                if idx_filter is None or child.nodeid.NamespaceIndex == idx_filter:
-                    dic[browse_name] = nodeid_str
-        except Exception:
-            # Algunos nodos pueden no devolver browse_name o clase -> ignorar
-            pass
+    def load_nodes_from_csv(self):
+        '''
+        Carga y crea los nodos a partir de un archivo CSV.
+        '''
+        pass
 
-        # Llamada recursiva para explorar los subnodos
-        build_node_dict(child, dic, idx_filter)
+    def export_nodes_to_json(self):
+        '''
+        Guarda en un JSON la información de los nodos para los clientes.
+        '''
+        pass
+    
+    def _check_invariants(self) -> None:
+        # Ciclo de vida coherente
+        if self._server is None:
+            assert self._idx is None, "idx debe ser None si el servidor no está arrancado"
+        else:
+            assert self._idx is not None, "idx no puede ser None si el servidor está arrancado"
 
-# Crear servidor
-server = Server()
-server.set_endpoint("opc.tcp://127.0.0.1:4841")
-idx = server.register_namespace("CAFERSA")
+        # Endpoint y namespace
+        assert isinstance(self._endpoint_url, str) and self._endpoint_url.startswith("opc.tcp://"), \
+            "endpoint_url inválido"
+        assert isinstance(self._namespace, str) and self._namespace, "namespace vacío"
 
-# Nodo raiz
-nodes = server.get_objects_node()
+    @property
+    def is_connected(self) -> bool:
+        '''Indica si hay un servidor OPC UA activo'''
+        return self._server is not None
 
-# **** ### SALIDAS PLC - ENTRADAS HALCON ### *****
-Realizar_Vision = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Realizar_Vision\"", idx), "Realizar_Vision", 20.5)
-Espesor_Nominal = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Espesor_Nominal\"", idx), "Espesor_Nominal", 0.0)
-Cargar_Fichero_1 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Cargar_Fichero_1\"", idx), "Cargar_Fichero_1", False)
-Cargar_Fichero_2 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Cargar_Fichero_2\"", idx), "Cargar_Fichero_2", False)
-Control_Esquinas_1 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Control_Esquinas_1\"", idx), "Control_Esquinas_1", False)
-Control_Esquinas_2 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Control_Esquinas_2\"", idx), "Control_Esquinas_2", False)
-Control_Perforaciones_1 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Control_Perforaciones_1\"", idx), "Control_Perforaciones_1", False)
-Control_Perforaciones_2 = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Control_Perforaciones_2\"", idx), "Control_Perforaciones_2", False)
-Produccion = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"Produccion\"", idx), "Produccion", False)
-ID_Pizarra_In = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"ID_Pizarra\"", idx), "ID_Pizarra_In", 0)
-LiveBit_In = nodes.add_variable(ua.NodeId("\"\".\"SALIDAS\".\"LiveBit\"", idx), "LiveBit_In", False)
 
-# **** ### ENTRADAS PLC - SALIDAS HALCON ### *****
-COD_Error = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"COD_Error\"", idx), "COD_Error", 0)
-Vision_Realizada = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Vision_Realizada\"", idx), "Vision_Realizada", False)
-Largo_Medido = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Largo_Medido\"", idx), "Largo_Medido", 0.0)
-Ancho_Medido = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Ancho_Medido\"", idx), "Ancho_Medido", 0.0)
-Espesor_Medido = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Espesor_Medido\"", idx), "Espesor_Medido", 0.0)
-Tercio_Visible = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Tercio_Visible\"", idx), "Tercio_Visible", 0)
-Calidad_Tercio_1 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Calidad_Tercio_1\"", idx), "Calidad_Tercio_1", 0)
-Calidad_Tercio_3 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Calidad_Tercio_3\"", idx), "Calidad_Tercio_3", 0)
-Fichero_Cargado_1 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Fichero_Cargado_1\"", idx), "Fichero_Cargado_1", False)
-Fichero_Cargado_2 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"Fichero_Cargado_2\"", idx), "Fichero_Cargado_2", False)
-ID_Pizarra_Out = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"ID_Pizarra\"", idx), "ID_Pizarra_Out", 0)
-ID_Produccion_1 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"ID_Produccion_1\"", idx), "ID_Produccion_1", 0)
-ID_Produccion_2 = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"ID_Produccion_2\"", idx), "ID_Produccion_2", 0)
-LiveBit_Out = nodes.add_variable(ua.NodeId("\"\".\"ENTRADAS\".\"LiveBit\"", idx), "LiveBit_Out", False)
-
-# Hacer variables escribibles desde clientes
-COD_Error.set_writable()
-Vision_Realizada.set_writable()
-Largo_Medido.set_writable()
-Ancho_Medido.set_writable()
-Espesor_Medido.set_writable()
-Tercio_Visible.set_writable()
-Calidad_Tercio_1.set_writable()
-Calidad_Tercio_3.set_writable()
-Fichero_Cargado_1.set_writable()
-Fichero_Cargado_2.set_writable()
-ID_Pizarra_Out.set_writable()
-ID_Produccion_1.set_writable()
-ID_Produccion_2.set_writable()
-LiveBit_Out.set_writable()
-
-# Crear diccionario de nodos para uso por parte del cliente
-node_dict = {}
-root = server.get_root_node()
-children = root.get_child(["0:Objects"])
-build_node_dict(children, node_dict,idx)
-
-# Exportar a un archivo JSON
-with open(os.path.dirname(__file__)+"/nodes.json", "w", encoding="utf-8") as f:
-    json.dump(node_dict, f, ensure_ascii=False, indent=4)
-
-# Arrancar servidor
-server.start()
-print("Servidor OPC UA iniciado en opc.tcp://127.0.0.1:4841")
-
-try:
-    while True:        
-        time.sleep(1)
-except KeyboardInterrupt:
-    print('Servidor desconectado')
-    server.stop()
+if __name__=="__main__":
+  pass

@@ -80,10 +80,6 @@ try:
     ID_Produccion_2 = endpoint.get_node("ns=2;s=\"\".\"ENTRADAS\".\"ID_Produccion_2\"")
     LiveBit_Out = endpoint.get_node("ns=2;s=\"\".\"ENTRADAS\".\"LiveBit\"")
     
-    # Monitorizar las variables
-    def datachange_handler(node, val, data):
-        print(f"Nuevo valor para {node.get_browse_name()}: {val}")
-
     # Suscripción (periodo/publishing interval en ms)
     '''
     Se instancia un manejador de la clase SubHandler,
