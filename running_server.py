@@ -1,15 +1,13 @@
-from opcua import Server
 from pathlib import Path
-from typing import Any
 from opc_project.opcua_lib import setup_logging
 from opc_project.opcua_server import  OpcServer,__version__,logger
-import time,json,logging,argparse
+import time,argparse
     
 
 # Parametros por defecto de constructor
 endpoint_url="opc.tcp://127.0.0.1:4841"
 namespace = "CAFERSA"
-files_dir = (Path(__file__).resolve().parent / "files").as_posix()
+files_dir = (Path(__file__).resolve().parent).as_posix()+"/opc_project/files/"
 nodes_input_file = "nodes.csv"
 nodes_output_file = "nodes.json" 
 
@@ -43,7 +41,6 @@ server = OpcServer(
     )
 
 server.start()
-
 try:
     while True:        
         time.sleep(1)

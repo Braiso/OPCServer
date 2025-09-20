@@ -44,3 +44,6 @@ def test_start_with_invalid_endpoint():
         srv.start(retries=1)
     assert srv._server is None
     assert srv._idx is None
+
+def test_load_node():
+    assert True

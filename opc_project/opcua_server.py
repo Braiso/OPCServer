@@ -1,8 +1,14 @@
 from opcua import Server
-from pathlib import Path
 from typing import Any
-from .opcua_lib import setup_logging,build_node_dict
-import time,json,logging,argparse
+from .opcua_lib import validate_types
+import time,json,logging
+import csv
+from pathlib import Path
+
+'''
+Funcionalidades por implementar:
+- Context Manager
+'''
 
 logger = logging.getLogger(__name__)
 __version__ = "0.1.0"
@@ -59,6 +65,8 @@ class OpcServer:
             Instancia del servidor.
         nodes =  dict[str,Any] or None
             Nodos creados. Fuente: Archivo CSV    
+        self._idx : int
+            Indice del espacio de nombre definido en el constructor
         '''
 
         self._endpoint_url: str = endpoint_url
@@ -68,7 +76,7 @@ class OpcServer:
         self._nodes_output : str = nodes_output_file
         self._server: Server | None = None
         self._nodes : dict[str,Any] | None = None
-        self._idx: int | None = None
+        self._idx : int | None = None
 
     def start(self, retries: int = 3, backoff_s:float = 1.0) -> bool:
         '''
@@ -155,11 +163,132 @@ class OpcServer:
         self._check_invariants()
         return True
 
-    def load_nodes_from_csv(self):
-        '''
+    def load_nodes_from_csv(self,
+                            *,
+                            delimiter: str = ',',
+                            encoding: str = 'utf-8',
+                            required_fields: tuple[str,...] = ("alias","nodeid","datatype","initial","folder","writable")
+                            ) -> dict:
+        """
         Carga y crea los nodos a partir de un archivo CSV.
-        '''
-        pass
+
+        Parameters
+        ----------
+        delimiter : str
+            Separador de campos (por defecto ',').
+        encoding : str
+            Codificación del archivo (por defecto 'utf-8').
+        required_fields : tuple[str, ...]
+            Columnas mínimas obligatorias en el CSV.
+
+        Returns
+        -------
+        dict
+            Resumen con métricas de carga:
+            {
+            "total_rows": int,
+            "loaded": int,
+            "skipped": int,
+            "duplicates": int,
+            "errors": int,
+            }
+
+        Raises
+        ------
+        OpcServerError
+            Si hay errores de E/S (archivo inexistente, permisos, etc.)
+            o si la cabecera no contiene los campos obligatorios.
+        """
+
+        # Ruta de importacion
+        path_csv= Path(self._files_dir + self._nodes_input)
+
+        # Carga de archivo
+        try: 
+            f = path_csv.open("r", newline="", encoding=encoding)
+            logger.info(f"Archivo CSV cargado correctamente: {path_csv}")
+        except FileNotFoundError as exc:
+            raise OpcServerError(self._endpoint_url,f"El archivo no existe: {path_csv}",original=exc)
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,f"Error inesperado en la carga fichero CSV: {path_csv}",original=exc)
+
+        with f:
+            reader = csv.DictReader(f,delimiter=delimiter)
+            header = reader.fieldnames
+
+            # Validación de cabecera
+            if not header:
+                raise OpcServerError(self._endpoint_url, f"CSV sin cabecera: {path_csv}")
+
+            faltan = [c for c in required_fields if c not in header]
+            if faltan:
+                raise OpcServerError(
+                    self._endpoint_url,
+                    f"Faltan columnas obligatorias {faltan} en {path_csv}. Cabecera: {header}",
+                )
+
+            # Estructuras de estado
+            stats = {"total_rows": 0, "loaded": 0, "skipped": 0, "duplicates": 0, "errors": 0}
+            nodes: dict[str, dict] = {} if self._nodes is None else dict(self._nodes)  # copia defensiva
+
+            # Procesando fila a fila
+            for row in reader:
+                stats["total_rows"] +=1
+                line = reader.line_num  # línea real del archivo (útil para logs)
+
+                # Normalización básica: strip en strings
+                norm_row = {k: (v.strip() if isinstance(v, str) else v) for k, v in row.items()}
+
+                # Comprobar requeridos no vacíos
+                if any(not norm_row.get(c) for c in required_fields):
+                    logger.warning("Fila %d: campos requeridos vacíos (%s). Se omite.", line, required_fields)
+                    stats["skipped"] += 1
+                    continue
+
+                alias = norm_row["alias"]
+
+                # Duplicados por nombre (ajusta la clave si usas otra)
+                if alias in nodes:
+                    logger.warning("Fila %d: nombre duplicado '%s'. Se omite.", line, alias)
+                    stats["duplicates"] += 1
+                    continue
+
+                # Construcción del dict del nodo
+                try:
+                    node_def = validate_types(norm_row)
+                    
+                except ValueError as e:
+                    # Errores de contenido/parseo
+                    logger.warning("Fila %d: datos inválidos (%s). Se omite.", line, e)
+                    stats["errors"] += 1
+                    continue
+                except Exception as e:
+                    logger.warning("Fila %d: error inesperado al procesar fila: %s", line, e, exc_info=True)
+                    stats["errors"] += 1
+                    continue
+
+                # Guardar en estructura local
+                nodes[alias] = node_def
+                stats["loaded"] += 1
+
+
+            logger.info(
+                "CSV cargado: %s | total=%d, loaded=%d, skipped=%d, duplicates=%d, errors=%d",
+                path_csv, stats["total_rows"], stats["loaded"], stats["skipped"], stats["duplicates"], stats["errors"]
+            )
+
+        # Commit de los nodos cargados en el estado del servidor
+        prev_nodes = self._nodes
+        self._nodes = nodes
+
+        # Comprobar invariantes
+        try:
+            self._check_nodes_invariants()  
+        except AssertionError as e:
+            # Revierte estado si quieres ser ultra-defensivo
+            self._nodes = prev_nodes
+            raise OpcServerError(self._endpoint_url, "Invariantes de nodos incumplidas", original=e)
+        return stats
 
     def export_nodes_to_json(self):
         '''
@@ -179,11 +308,38 @@ class OpcServer:
             "endpoint_url inválido"
         assert isinstance(self._namespace, str) and self._namespace, "namespace vacío"
 
+    def _check_nodes_invariants(self) -> None:
+        from opcua import ua
+
+        nodes = self._nodes
+        assert isinstance(nodes, dict), "self._nodes debe ser dict"
+
+        # Unicidad de alias (por si llega algo raro)
+        assert len(nodes) == len(set(nodes.keys())), "Alias duplicados en self._nodes"
+
+        for alias, nd in nodes.items():
+            assert isinstance(alias, str) and alias, f"alias inválido: {alias!r}"
+            assert isinstance(nd, dict), f"node_def debe ser dict en {alias}"
+
+            # Campos mínimos
+            for k in ("nodeid", "datatype", "initial"):
+                assert k in nd, f"Falta '{k}' en nodo {alias}"
+
+            # Tipo correcto
+            dt = nd["datatype"]
+            assert dt in ua.VariantType, f"datatype inválido en {alias}: {dt!r}"
+
+            # initial no None
+            assert nd["initial"] is not None, f"initial None en {alias}"
+
+            # writable booleano (si existe)
+            if "writable" in nd:
+                assert isinstance(nd["writable"], bool), f"writable no bool en {alias}"
+                
     @property
     def is_connected(self) -> bool:
         '''Indica si hay un servidor OPC UA activo'''
         return self._server is not None
-
 
 if __name__=="__main__":
   pass

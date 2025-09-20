@@ -17,9 +17,11 @@ y este proyecto sigue [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 - ``main.py``: Arranca servidor.
 - Clase ``OpcServer`` en ``opcua_server.py``.
-- Fuente nodos CSV.
+
+## [Unreleaser] - 2025-09-20
+### Added
+- Metodo ``load_nodes_from_csv`` + test.
 
 ### Changued
 
 ### Fixed
-

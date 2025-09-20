@@ -1,5 +1,98 @@
 import logging,sys
+from typing import Any
 from opcua import ua
+
+def validate_types(node_line: dict[str,Any])->dict:  
+    """
+    Valida que 'datatype' sea soportado y que 'initial' concuerde con el tipo.
+    - Convierte datatype (str) -> ua.VariantType
+    - Castea 'initial' a su homólogo Python
+    - Devuelve el mismo dict mutado
+    """
+
+    TYPE_MAP = {"boolean":ua.VariantType.Boolean,
+                "sbyte":ua.VariantType.SByte,
+                "byte":ua.VariantType.Byte,
+                "int16":ua.VariantType.Int16,
+                "uint16":ua.VariantType.UInt16,
+                "int32":ua.VariantType.Int32,
+                "uint32":ua.VariantType.UInt32,
+                "int64":ua.VariantType.Int64,
+                "uint64":ua.VariantType.UInt64,
+                "float":ua.VariantType.Float,
+                "double":ua.VariantType.Double,
+                "string":ua.VariantType.String
+    }              
+
+    _TRUE = {"1", "true", "t", "yes", "y", "si", "sí"}
+    _FALSE = {"0", "false", "f", "no", "n", ""}
+
+    # Ver que el tipo de datos este contemplado
+    dtype_key = str(node_line["datatype"]).strip().lower()
+    if dtype_key not in TYPE_MAP:
+        raise ValueError(f"Datatype no soportado: {node_line['datatype']!r}")
+
+    # Casteo según vtype
+    vtype = TYPE_MAP[dtype_key]
+    raw = str(node_line.get("initial", "")).strip()
+
+    # bool
+    if vtype == ua.VariantType.Boolean:
+        low = raw.lower()
+        if low in _TRUE:
+            initial = True
+        elif low in _FALSE:
+            initial = False
+        else:
+            raise ValueError(f"Valor inicial no es booleano: {raw!r}")
+
+    # string
+    elif vtype == ua.VariantType.String:
+        initial = raw 
+
+    # int
+    elif vtype in {
+            ua.VariantType.SByte, ua.VariantType.Byte,
+            ua.VariantType.Int16, ua.VariantType.UInt16,
+            ua.VariantType.Int32, ua.VariantType.UInt32,
+            ua.VariantType.Int64, ua.VariantType.UInt64,
+        }:
+        # Permite vacío -> 0
+        if raw == "":
+            initial = 0
+        else:
+            try:
+                initial = int(raw)
+            except Exception:
+                raise ValueError(f"Valor inicial no es int: {raw!r}")
+
+    # float
+    elif vtype == ua.VariantType.Float or ua.VariantType.Double:
+        # Permite vacío -> 0.0 y coma decimal
+        norm = raw.replace(",", ".")
+        try:
+            initial = float(norm) if norm != "" else 0.0
+        except Exception:
+            raise ValueError(f"Valor inicial no es float: {raw!r}")
+
+    else:
+        # No deberías llegar aquí con el TYPE_MAP actual
+        raise ValueError(f"Datatype no manejado: {vtype}")
+
+    # Mutar el dict de entrada con valores ya validados/casteados
+    node_line["datatype"]= vtype
+    node_line["initial"]= initial
+
+    # Castear writable
+    writable=str(node_line["writable"]).strip().lower()
+    if writable in _TRUE:
+        node_line["writable"] = True
+    elif writable in _FALSE:
+        node_line["writable"] = False
+    else:
+        raise ValueError(f"Valor de 'Writable' no es booleano: {writable!r}")
+
+    return node_line
 
 def build_node_dict(root_node, dic, idx_filter=None):
     # Recorre recursivamente todos los nodos hijos a partir de root_node

@@ -95,3 +95,445 @@
 2025-09-13 19:35:39,919 INFO opcua.server.internal_server: close session InternalSession(name:Internal, user:User.Admin, id:NumericNodeId(i=10), auth_token:NumericNodeId(i=1000)) with subscriptions []
 2025-09-13 19:35:39,921 INFO opcua.server.subscription_service: delete subscriptions: []
 2025-09-13 19:35:39,924 INFO opc_project.opcua_server: Servidor detenido en opc.tcp://127.0.0.1:4841
+2025-09-20 09:58:45,786 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 09:58:45,798 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3062), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,799 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3063), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,800 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=24), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,802 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=31), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,804 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3068), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,804 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12170), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,805 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3067), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,805 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3069), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,806 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3070), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,806 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11433), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,807 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11498), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,807 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15002), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,808 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12908), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,808 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11512), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,809 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11513), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,809 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11432), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,809 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3071), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,810 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12745), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,811 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3072), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,811 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3073), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,812 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,812 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=17605), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,813 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=23501), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,913 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=58), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,914 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=62), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,916 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=78), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,917 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=80), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,918 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=83), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,919 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11508), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,919 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11510), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,920 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=84), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:45,923 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15957), requested parent node NumericNodeId(i=11715) does not exists
+2025-09-20 09:58:45,925 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15958), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,957 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15959), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,958 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15960), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,958 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15961), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,959 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15962), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,959 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15963), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,960 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15964), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,960 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16134), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,961 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16135), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:45,962 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16136), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 09:58:46,083 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16314), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,286 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11214), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,289 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11202), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,290 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11215), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,298 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2341), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,299 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2342), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,300 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2343), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,300 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11285), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,301 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2344), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,302 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11304), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,302 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2346), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,303 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2347), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,303 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2348), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,304 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2349), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,304 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2350), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,305 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11286), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,305 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11287), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,306 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11305), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,306 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,306 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11288), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,307 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2351), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,307 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2352), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,308 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11307), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,308 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11308), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,309 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2355), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,309 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2357), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,310 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2358), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,310 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2359), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,311 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11505), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,311 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11506), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,312 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11507), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,312 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2360), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,313 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2361), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,313 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2362), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,314 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2363), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,315 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2364), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,315 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11292), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,315 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11426), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,316 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11427), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,316 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11428), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,317 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11429), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 09:58:46,358 INFO opcua.server.internal_server: Created internal session Internal
+2025-09-20 09:58:46,359 WARNING opcua.server.server: Endpoints other than open requested but private key and certificate are not set.
+2025-09-20 09:58:46,360 INFO opcua.server.internal_server: starting internal server
+2025-09-20 09:58:46,363 WARNING opcua.server.binary_server_asyncio: Listening on 127.0.0.1:4841
+2025-09-20 09:58:46,364 INFO opc_project.opcua_server: Arranque servidor en opc.tcp://127.0.0.1:4841 exitoso
+2025-09-20 10:33:07,701 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 10:33:07,705 WARNING opc_project.opcua_server: Intento 1/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:33:08,708 WARNING opc_project.opcua_server: Intento 2/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:33:10,711 ERROR opc_project.opcua_server: Error al arrancar a opc.tcp://127.0.0.1:4841 tras 3 intentos
+2025-09-20 10:33:37,546 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 10:33:37,548 WARNING opc_project.opcua_server: Intento 1/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:33:38,549 WARNING opc_project.opcua_server: Intento 2/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:33:40,551 ERROR opc_project.opcua_server: Error al arrancar a opc.tcp://127.0.0.1:4841 tras 3 intentos
+2025-09-20 10:35:39,300 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 10:35:39,303 WARNING opc_project.opcua_server: Intento 1/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:35:40,304 WARNING opc_project.opcua_server: Intento 2/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:35:42,307 ERROR opc_project.opcua_server: Error al arrancar a opc.tcp://127.0.0.1:4841 tras 3 intentos
+2025-09-20 10:36:40,422 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 10:36:40,424 WARNING opc_project.opcua_server: Intento 1/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:36:41,425 WARNING opc_project.opcua_server: Intento 2/3 falló: 'OpcServer' object has no attribute '_idx'
+2025-09-20 10:36:43,427 ERROR opc_project.opcua_server: Error al arrancar a opc.tcp://127.0.0.1:4841 tras 3 intentos
+2025-09-20 10:36:46,605 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 10:36:46,607 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3062), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,607 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3063), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,608 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=24), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,611 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=31), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,614 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3068), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,614 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12170), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,615 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3067), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,615 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3069), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,616 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3070), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,616 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11433), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,617 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11498), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,618 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15002), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,618 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12908), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,619 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11512), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,619 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11513), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,620 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11432), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,620 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3071), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,621 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12745), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,621 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3072), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,621 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3073), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,622 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,622 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=17605), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,623 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=23501), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,723 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=58), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,724 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=62), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,726 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=78), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,727 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=80), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,728 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=83), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,729 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11508), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,730 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11510), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,731 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=84), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:46,732 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15957), requested parent node NumericNodeId(i=11715) does not exists
+2025-09-20 10:36:46,733 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15958), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,734 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15959), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,734 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15960), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,735 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15961), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,735 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15962), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,736 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15963), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,736 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15964), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,737 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16134), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,737 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16135), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,738 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16136), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 10:36:46,878 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16314), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,096 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11214), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,099 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11202), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,100 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11215), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,107 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2341), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,108 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2342), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,109 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2343), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,109 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11285), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,110 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2344), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,111 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11304), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,111 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2346), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,111 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2347), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,112 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2348), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,112 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2349), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,113 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2350), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,114 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11286), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,114 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11287), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,115 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11305), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,115 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,116 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11288), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,116 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2351), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,117 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2352), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,117 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11307), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,117 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11308), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,118 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2355), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,118 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2357), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,119 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2358), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,119 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2359), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,120 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11505), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,120 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11506), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,120 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11507), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,121 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2360), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,121 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2361), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,122 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2362), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,122 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2363), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,122 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2364), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,123 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11292), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,123 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11426), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,123 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11427), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,124 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11428), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,124 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11429), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 10:36:47,171 INFO opcua.server.internal_server: Created internal session Internal
+2025-09-20 10:36:47,172 WARNING opcua.server.server: Endpoints other than open requested but private key and certificate are not set.
+2025-09-20 10:36:47,173 INFO opcua.server.internal_server: starting internal server
+2025-09-20 10:36:47,175 WARNING opcua.server.binary_server_asyncio: Listening on 127.0.0.1:4841
+2025-09-20 10:36:47,176 INFO opc_project.opcua_server: Arranque servidor en opc.tcp://127.0.0.1:4841 exitoso
+2025-09-20 11:28:44,067 INFO opcua.server.binary_server_asyncio: Closing asyncio socket server
+2025-09-20 11:28:44,069 INFO opcua.server.internal_server: stopping internal server
+2025-09-20 11:28:44,070 INFO opcua.server.internal_server: close session InternalSession(name:Internal, user:User.Admin, id:NumericNodeId(i=10), auth_token:NumericNodeId(i=1000)) with subscriptions []
+2025-09-20 11:28:44,071 INFO opcua.server.subscription_service: delete subscriptions: []
+2025-09-20 11:28:44,072 INFO opc_project.opcua_server: Servidor detenido en opc.tcp://127.0.0.1:4841
+2025-09-20 11:34:09,262 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 11:34:09,264 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3062), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,264 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3063), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,265 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=24), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,267 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=31), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,269 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3068), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,270 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12170), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,271 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3067), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,271 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3069), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,272 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3070), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,272 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11433), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,273 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11498), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,274 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15002), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,274 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12908), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,275 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11512), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,275 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11513), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,276 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11432), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,277 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3071), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,277 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12745), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,278 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3072), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,279 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3073), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,279 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,280 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=17605), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,281 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=23501), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,381 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=58), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,382 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=62), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,384 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=78), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,385 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=80), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,386 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=83), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,387 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11508), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,387 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11510), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,388 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=84), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,389 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15957), requested parent node NumericNodeId(i=11715) does not exists
+2025-09-20 11:34:09,390 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15958), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,390 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15959), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,391 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15960), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,391 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15961), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,392 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15962), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,392 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15963), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,393 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15964), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,393 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16134), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,394 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16135), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,394 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16136), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 11:34:09,513 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16314), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,714 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11214), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,717 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11202), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,718 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11215), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,724 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2341), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,725 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2342), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,726 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2343), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,726 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11285), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,727 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2344), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,727 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11304), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,728 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2346), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,729 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2347), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,729 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2348), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,730 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2349), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,730 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2350), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,731 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11286), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,731 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11287), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,732 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11305), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,732 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,733 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11288), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,733 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2351), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,734 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2352), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,734 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11307), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,735 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11308), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,735 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2355), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,736 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2357), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,736 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2358), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,737 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2359), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,738 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11505), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,738 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11506), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,739 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11507), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,739 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2360), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,740 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2361), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,740 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2362), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,741 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2363), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,742 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2364), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,743 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11292), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,744 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11426), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,745 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11427), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,745 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11428), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,746 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11429), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 11:34:09,796 INFO opcua.server.internal_server: Created internal session Internal
+2025-09-20 11:34:09,797 WARNING opcua.server.server: Endpoints other than open requested but private key and certificate are not set.
+2025-09-20 11:34:09,798 INFO opcua.server.internal_server: starting internal server
+2025-09-20 11:34:09,800 WARNING opcua.server.binary_server_asyncio: Listening on 127.0.0.1:4841
+2025-09-20 11:34:09,801 INFO opc_project.opcua_server: Arranque servidor en opc.tcp://127.0.0.1:4841 exitoso
+2025-09-20 11:35:30,067 INFO opcua.server.binary_server_asyncio: Closing asyncio socket server
+2025-09-20 11:35:30,069 INFO opcua.server.internal_server: stopping internal server
+2025-09-20 11:35:30,070 INFO opcua.server.internal_server: close session InternalSession(name:Internal, user:User.Admin, id:NumericNodeId(i=10), auth_token:NumericNodeId(i=1000)) with subscriptions []
+2025-09-20 11:35:30,071 INFO opcua.server.subscription_service: delete subscriptions: []
+2025-09-20 11:35:30,072 INFO opc_project.opcua_server: Servidor detenido en opc.tcp://127.0.0.1:4841
+2025-09-20 11:35:34,841 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 11:35:34,846 INFO opc_project.opcua_server: Archvio CSV cargado correctamente.
+2025-09-20 11:39:00,219 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 11:39:00,225 INFO opc_project.opcua_server: Archivo CSV cargado correctamente.
+2025-09-20 11:42:10,012 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 11:42:10,017 INFO opc_project.opcua_server: Archivo CSV cargado correctamente.
+2025-09-20 12:36:45,735 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:36:45,740 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:42:09,538 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:42:09,543 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:46:15,514 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:46:15,524 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:55:07,521 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:55:07,531 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:55:07,532 WARNING opc_project.opcua_server: Fila 2: campos requeridos vacíos (('alias', 'nodeid', 'datatype', 'initial', 'folder', 'writable')). Se omite.
+2025-09-20 12:57:19,248 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:57:19,250 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3062), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,250 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3063), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,251 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=24), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,253 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=31), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,255 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3068), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,256 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12170), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,257 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3067), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,257 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3069), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,258 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3070), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,258 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11433), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,259 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11498), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,259 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15002), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,260 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12908), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,260 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11512), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,260 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11513), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,261 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11432), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,261 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3071), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,262 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=12745), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,262 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3072), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,263 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=3073), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,263 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,264 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=17605), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,264 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=23501), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,368 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=58), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,369 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=62), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,371 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=78), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,372 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=80), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,373 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=83), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,374 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11508), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,375 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11510), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,375 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=84), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,377 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15957), requested parent node NumericNodeId(i=11715) does not exists
+2025-09-20 12:57:19,377 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15958), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,378 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15959), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,378 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15960), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,379 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15961), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,379 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15962), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,380 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15963), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,380 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=15964), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,381 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16134), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,382 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16135), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,382 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16136), requested parent node NumericNodeId(i=15957) does not exists
+2025-09-20 12:57:19,536 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=16314), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,730 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11214), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,733 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11202), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,735 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11215), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,743 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2341), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,743 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2342), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,744 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2343), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,745 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11285), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,745 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2344), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,746 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11304), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,747 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2346), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,747 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2347), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,748 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2348), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,748 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2349), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,749 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2350), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,749 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11286), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,750 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11287), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,750 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11305), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,750 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11306), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,751 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11288), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,751 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2351), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,752 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2352), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,752 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11307), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,753 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11308), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,753 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2355), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,753 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2357), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,754 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2358), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,754 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2359), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,755 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11505), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,755 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11506), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,756 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11507), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,756 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2360), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,757 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2361), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,757 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2362), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,757 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2363), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,758 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=2364), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,758 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11292), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,759 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11426), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,759 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11427), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,759 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11428), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,760 INFO opcua.server.address_space: add_node: while adding node NumericNodeId(i=11429), requested parent node is null TwoByteNodeId(i=0) True
+2025-09-20 12:57:19,813 INFO opcua.server.internal_server: Created internal session Internal
+2025-09-20 12:57:19,815 WARNING opcua.server.server: Endpoints other than open requested but private key and certificate are not set.
+2025-09-20 12:57:19,816 INFO opcua.server.internal_server: starting internal server
+2025-09-20 12:57:19,818 WARNING opcua.server.binary_server_asyncio: Listening on 127.0.0.1:4841
+2025-09-20 12:57:19,819 INFO opc_project.opcua_server: Arranque servidor en opc.tcp://127.0.0.1:4841 exitoso
+2025-09-20 12:57:26,452 INFO opcua.server.binary_server_asyncio: Closing asyncio socket server
+2025-09-20 12:57:26,456 INFO opcua.server.internal_server: stopping internal server
+2025-09-20 12:57:26,458 INFO opcua.server.internal_server: close session InternalSession(name:Internal, user:User.Admin, id:NumericNodeId(i=10), auth_token:NumericNodeId(i=1000)) with subscriptions []
+2025-09-20 12:57:26,460 INFO opcua.server.subscription_service: delete subscriptions: []
+2025-09-20 12:57:26,463 INFO opc_project.opcua_server: Servidor detenido en opc.tcp://127.0.0.1:4841
+2025-09-20 12:57:36,517 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:57:36,528 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:58:07,212 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:58:07,217 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:58:41,416 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:58:41,422 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 12:59:44,921 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 12:59:44,926 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 13:03:22,601 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 13:03:22,607 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 13:03:22,608 WARNING opc_project.opcua_server: Fila 3: nombre duplicado 'Realizar_Vision'. Se omite.
+2025-09-20 13:03:22,609 INFO opc_project.opcua_server: CSV cargado: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv | total=2, loaded=1, skipped=0, duplicates=1, errors=0
+2025-09-20 13:03:48,922 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 13:03:48,929 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 13:36:08,449 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 13:36:08,455 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 13:37:37,807 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 13:37:37,812 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 13:52:27,587 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 13:52:27,597 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 17:06:33,029 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 17:06:33,054 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 17:08:18,675 WARNING opc_project.opcua_server: Fila 11: datos inválidos (Valor inicial no es int: 'false'). Se omite.
+2025-09-20 17:09:39,043 INFO opc_project.opcua_server: CSV cargado: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv | total=26, loaded=25, skipped=0, duplicates=0, errors=1
+2025-09-20 17:11:12,028 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 17:11:12,034 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 17:11:12,035 WARNING opc_project.opcua_server: Fila 11: datos inválidos (Valor inicial no es int: 'false'). Se omite.
+2025-09-20 17:31:21,837 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 17:31:21,842 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 17:31:21,843 WARNING opc_project.opcua_server: Fila 11: datos inválidos (Valor inicial no es int: 'false'). Se omite.
+2025-09-20 17:31:21,845 INFO opc_project.opcua_server: CSV cargado: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv | total=26, loaded=25, skipped=0, duplicates=0, errors=1
+2025-09-20 18:01:11,887 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 18:01:11,898 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 18:01:11,899 WARNING opc_project.opcua_server: Fila 3: datos inválidos (Datatype no soportado: 'prueba'). Se omite.
+2025-09-20 18:01:11,899 WARNING opc_project.opcua_server: Fila 11: datos inválidos (Valor inicial no es int: 'false'). Se omite.
+2025-09-20 18:01:11,900 INFO opc_project.opcua_server: CSV cargado: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv | total=26, loaded=24, skipped=0, duplicates=0, errors=2
+2025-09-20 18:02:15,302 INFO opc_project.opcua_server: Arrancando OpcServer v0.1.0 en opc.tcp://127.0.0.1:4841
+2025-09-20 18:02:15,307 INFO opc_project.opcua_server: Archivo CSV cargado correctamente: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv
+2025-09-20 18:02:15,308 WARNING opc_project.opcua_server: Fila 11: datos inválidos (Valor inicial no es int: 'false'). Se omite.
+2025-09-20 18:02:15,309 INFO opc_project.opcua_server: CSV cargado: J:\Mi unidad\05_DESARROLLO\SERVIDOR_OPC_UA\OPC\opc_project\files\nodes.csv | total=26, loaded=25, skipped=0, duplicates=0, errors=1
