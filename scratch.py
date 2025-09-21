@@ -38,7 +38,14 @@ args = parser.parse_args()
 setup_logging(args.level, args.log)
 logger.info("Arrancando OpcServer v%s en %s", __version__, args.url)
 
+srv.create()
+srv.start()
 srv.load_nodes_from_csv()
+if srv.alias_is_loaded:
+    print("Alias cargados")
+srv.stop()
+
+print("Ciclo de vida exitoso")
 
 '''
 - Si la carga es exitosa, self.nodes no estara vacio

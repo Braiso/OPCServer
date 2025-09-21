@@ -8,6 +8,7 @@ from pathlib import Path
 '''
 Funcionalidades por implementar:
 - Context Manager
+- Rango de valores en validate_types
 '''
 
 logger = logging.getLogger(__name__)
@@ -77,6 +78,39 @@ class OpcServer:
         self._server: Server | None = None
         self._nodes : dict[str,Any] | None = None
         self._idx : int | None = None
+        self._started: bool | None = None
+        self._check_general_invariants
+        
+    def create(self) -> None:
+        '''
+        Crea el servidor y registra el namespace
+        '''
+        self._check_general_invariants
+
+        # Idempotencia
+        if self.is_created:
+            logger.info(f"Servidor ya creado en {self._endpoint_url}")
+
+            # Comprobar si tambien tien el espacio de nombre registrado
+            if not self.idx_is_registered:
+                self._register_index()
+            return
+    
+        try:
+            server = Server()
+            server.set_endpoint(self._endpoint_url)
+
+            self._server = server
+            self._register_index()  
+        except Exception as exc:
+            # Limpieza del estado interno solo si algo se rompió antes de quedar listo
+            self._server = None
+            self._idx = None
+            logger.exception("Fallo creando el servidor en %s", self._endpoint_url)
+            raise OpcServerError(self._endpoint_url, "Fallo en la creación del servidor") from exc
+
+        logger.info(f"Servidor creado en {self._endpoint_url}")
+        self._check_general_invariants
 
     def start(self, retries: int = 3, backoff_s:float = 1.0) -> bool:
         '''
@@ -100,8 +134,23 @@ class OpcServer:
             Si no se puede arrancar el servidor con el endpoint
             especificado en `self.endpoint_url`.        
         '''
-        # Comprobar si el servidor esta arrancado
-        if self.is_connected:
+
+        # Validación rápida de args
+        if retries < 1:
+            raise ValueError("retries debe ser >= 1")
+        if backoff_s <= 0:
+            raise ValueError("backoff_s debe ser > 0")
+
+        self._check_general_invariants() 
+
+        # Asegurar servidor creado (y namespace registrado) sin arrancar
+        if not self.is_created:
+            self.create()
+        elif not self.idx_is_registered:
+            self._register_index()
+
+        # Idempotencia
+        if self.is_started:
             logger.info(f"Servidor ya arrancado en {self._endpoint_url}")
             return True
 
@@ -109,18 +158,16 @@ class OpcServer:
         last_exc : Exception | None = None
         for attempt in range(1,retries+1):
             try:
-                self._check_invariants()
-                tmp = Server()
-                tmp.set_endpoint(self._endpoint_url)                 
-                idx = tmp.register_namespace(self._namespace)   
+                self._check_general_invariants()              
 
-                tmp.start()
-                self._server = tmp
-                self._idx = idx
+                assert self._server is not None
+                self._server.start()
+                self._started=True
 
                 logger.info(f"Arranque servidor en {self._endpoint_url} exitoso")
-                self._check_invariants()
+                self._check_general_invariants()
                 return True
+            
             except Exception as exc:
                 last_exc = exc
                 if attempt < retries:
@@ -128,15 +175,16 @@ class OpcServer:
                     time.sleep(backoff_s * attempt)
                 else:
                     logger.error("Error al arrancar a %s tras %d intentos", self._endpoint_url, retries)
+                    
                     # Asegura estado consistente
-                    if tmp is not None:
+                    if self._server is not None:
                         try:
-                            tmp.stop()
+                            self._server.stop()
                         except Exception:
                             pass
-                    self._server = None                    
-                    self._idx = None
-        self._check_invariants()
+                    self._started = False
+
+        self._check_general_invariants()
         raise OpcServerError(self._endpoint_url,"Se han agotado los intentos de arranque.",original=last_exc)
 
     def stop(self) -> bool:
@@ -160,8 +208,24 @@ class OpcServer:
             # asegurar estado consistente
             self._server = None
             self._idx = None
-        self._check_invariants()
+            self._started = False
+        self._check_general_invariants()
         return True
+
+    def _register_index(self)->None:
+        '''
+        Registra el namespace y guarda el indice
+        '''
+
+        if self._server is None:
+            raise OpcServerError(self._endpoint_url, "Servidor no inicializado. Debe arrancar el servidor antes de registrar el namespace.")
+        try:
+            idx = self._server.register_namespace(self._namespace)
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url, f"Error al registrar namespace: {self._namespace}", original=exc)
+        self._idx = idx
+        self._check_general_invariants()
+        logger.info(f"Espacio de nombres {self._namespace} registrado en {self._endpoint_url} con indice: {self._idx}")
 
     def load_nodes_from_csv(self,
                             *,
@@ -285,7 +349,7 @@ class OpcServer:
         try:
             self._check_nodes_invariants()  
         except AssertionError as e:
-            # Revierte estado si quieres ser ultra-defensivo
+            # Revierte estado si no cumple
             self._nodes = prev_nodes
             raise OpcServerError(self._endpoint_url, "Invariantes de nodos incumplidas", original=e)
         return stats
@@ -296,12 +360,17 @@ class OpcServer:
         '''
         pass
     
-    def _check_invariants(self) -> None:
+    def _check_general_invariants(self) -> None:
         # Ciclo de vida coherente
         if self._server is None:
-            assert self._idx is None, "idx debe ser None si el servidor no está arrancado"
+            assert self._idx is None, "idx debe ser None si el servidor no está creado"
         else:
-            assert self._idx is not None, "idx no puede ser None si el servidor está arrancado"
+            assert self._idx is not None, "idx no puede ser None si el servidor está creado"
+
+        # Flag de arranque
+        if self._started:
+            assert self._server is not None,"server debe ser true si el el servidor esta arrancado"
+            assert self._idx is not None,"idx debe ser true si el el servidor esta arrancado"
 
         # Endpoint y namespace
         assert isinstance(self._endpoint_url, str) and self._endpoint_url.startswith("opc.tcp://"), \
@@ -337,9 +406,24 @@ class OpcServer:
                 assert isinstance(nd["writable"], bool), f"writable no bool en {alias}"
                 
     @property
-    def is_connected(self) -> bool:
-        '''Indica si hay un servidor OPC UA activo'''
+    def is_created(self) -> bool:
+        '''Indica si el servidor esta creado'''
         return self._server is not None
+
+    @property
+    def is_started(self) -> bool:
+        '''Indica si hay un servidor OPC UA arrancado'''
+        return self._started is not None and self._started 
+
+    @property
+    def alias_is_loaded(self) -> bool:
+        '''Indica si se han cargado los alias'''
+        return self._nodes is not None
+    
+    @property
+    def idx_is_registered(self) -> bool:
+        '''Indica si se ha registado el espacio de nombres'''
+        return self._idx is not None
 
 if __name__=="__main__":
   pass

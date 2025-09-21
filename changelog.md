@@ -22,6 +22,6 @@ y este proyecto sigue [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Added
 - Metodo ``load_nodes_from_csv`` + test.
 
-### Changued
-
-### Fixed
+## [Unreleaser] - 2025-09-21
+### Added
+- Metodo ``create`` (separar creacion de arranque).
