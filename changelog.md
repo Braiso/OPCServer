@@ -25,3 +25,16 @@ y este proyecto sigue [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ## [Unreleaser] - 2025-09-21
 ### Added
 - Metodo ``create`` (separar creacion de arranque).
+
+## [Unreleaser] - 2025-09-27
+### Added
+- Metodo ``export_nodes_to_json``
+  - Primeras pruebas
+  - Editar formato para importar desde HALCON
+  - 
+### Changued
+- Metodo ``resolve_nodes``:
+  - Excepcion BadNodeExists
+  - Gestionar carpetas Entradas/Salidas
+- Metodo ``stop``: limpieza o preservacion o de atributos
+

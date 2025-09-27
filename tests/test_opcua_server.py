@@ -12,26 +12,46 @@ def server():
     )
     yield srv
     # cleanup defensivo
-    if srv.is_connected:
+    if srv.is_created:
         srv.stop()
 
-def test_start_and_stop(server):
-    assert not server.is_connected
+def test_start_and_clean_stop(server: OpcServer):
+    assert server._server is None
+    assert server._idx is None
+    assert not server.is_started
+
+    # Arranque servidor (inclue creacion)
     assert server.start()
-    assert server.is_connected
+
+    assert server.is_started
     assert server._server is not None
     assert server._idx is not None
+    assert server.is_started
 
     # idempotencia
     assert server.start()
-    assert server.is_connected
+    assert server.is_started
+
+    # parada con perseverancia
+    assert server.stop()
+
+    assert server.is_created
+    assert not server.is_started
+    assert server._server is not None
+    assert server._idx is not None
+
+    # Rearranque
+    assert server.start()
+    assert server.is_started
 
     # parada limpia
-    assert server.stop()
-    assert not server.is_connected
+    assert server.stop(clean=True)
+
+    assert not server.is_created
+    assert not server.is_started
     assert server._server is None
     assert server._idx is None
-
+    
 def test_start_with_invalid_endpoint():
     srv = OpcServer(
         endpoint_url="opc.tcp://:invalid",
@@ -44,6 +64,3 @@ def test_start_with_invalid_endpoint():
         srv.start(retries=1)
     assert srv._server is None
     assert srv._idx is None
-
-def test_load_node():
-    assert True

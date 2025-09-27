@@ -1,5 +1,5 @@
 import pytest
-from opc_project.opcua_server import validate_types  # ajusta el import a tu ruta real
+from opc_project.opcua_server import validate_types 
 from opcua import ua
 
 def test_boolean_true():

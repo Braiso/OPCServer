@@ -1,9 +1,10 @@
-from opcua import Server
+from opcua import Server, ua, Node
 from typing import Any
-from .opcua_lib import validate_types
+from .opcua_lib import validate_types,build_node_dict
 import time,json,logging
 import csv
 from pathlib import Path
+from opcua.ua.uaerrors import UaError
 
 '''
 Funcionalidades por implementar:
@@ -77,6 +78,7 @@ class OpcServer:
         self._nodes_output : str = nodes_output_file
         self._server: Server | None = None
         self._nodes : dict[str,Any] | None = None
+        self._resolved_nodes : list | None = None
         self._idx : int | None = None
         self._started: bool | None = None
         self._check_general_invariants
@@ -137,7 +139,7 @@ class OpcServer:
 
         # Validación rápida de args
         if retries < 1:
-            raise ValueError("retries debe ser >= 1")
+            raise ValueError("retries debe ser >= 1") 
         if backoff_s <= 0:
             raise ValueError("backoff_s debe ser > 0")
 
@@ -179,15 +181,15 @@ class OpcServer:
                     # Asegura estado consistente
                     if self._server is not None:
                         try:
-                            self._server.stop()
+                            self.stop(True)
                         except Exception:
                             pass
                     self._started = False
 
         self._check_general_invariants()
-        raise OpcServerError(self._endpoint_url,"Se han agotado los intentos de arranque.",original=last_exc)
+        raise OpcServerError(self._endpoint_url,"Se han agotado los intentos de arranque.",original=last_exc) from last_exc
 
-    def stop(self) -> bool:
+    def stop(self, clean:bool=False) -> bool:
         '''
         Detiene el servidor si está en ejecución.
 
@@ -205,27 +207,15 @@ class OpcServer:
         except Exception as exc:
             logger.warning("Error al detener servidor: %s", exc, exc_info=True)
         finally:
-            # asegurar estado consistente
-            self._server = None
-            self._idx = None
             self._started = False
+
+            if clean:
+                self._server: Server | None = None
+                self._idx : int | None = None
+                self._nodes : dict[str,Any] | None = None
+
         self._check_general_invariants()
         return True
-
-    def _register_index(self)->None:
-        '''
-        Registra el namespace y guarda el indice
-        '''
-
-        if self._server is None:
-            raise OpcServerError(self._endpoint_url, "Servidor no inicializado. Debe arrancar el servidor antes de registrar el namespace.")
-        try:
-            idx = self._server.register_namespace(self._namespace)
-        except Exception as exc:
-            raise OpcServerError(self._endpoint_url, f"Error al registrar namespace: {self._namespace}", original=exc)
-        self._idx = idx
-        self._check_general_invariants()
-        logger.info(f"Espacio de nombres {self._namespace} registrado en {self._endpoint_url} con indice: {self._idx}")
 
     def load_nodes_from_csv(self,
                             *,
@@ -272,9 +262,9 @@ class OpcServer:
             f = path_csv.open("r", newline="", encoding=encoding)
             logger.info(f"Archivo CSV cargado correctamente: {path_csv}")
         except FileNotFoundError as exc:
-            raise OpcServerError(self._endpoint_url,f"El archivo no existe: {path_csv}",original=exc)
+            raise OpcServerError(self._endpoint_url,f"El archivo no existe: {path_csv}",original=exc) from exc
         except Exception as exc:
-            raise OpcServerError(self._endpoint_url,f"Error inesperado en la carga fichero CSV: {path_csv}",original=exc)
+            raise OpcServerError(self._endpoint_url,f"Error inesperado en la carga fichero CSV: {path_csv}",original=exc) from exc
 
         with f:
             reader = csv.DictReader(f,delimiter=delimiter)
@@ -321,13 +311,13 @@ class OpcServer:
                 try:
                     node_def = validate_types(norm_row)
                     
-                except ValueError as e:
+                except ValueError as exc:
                     # Errores de contenido/parseo
-                    logger.warning("Fila %d: datos inválidos (%s). Se omite.", line, e)
+                    logger.warning("Fila %d: datos inválidos (%s). Se omite.", line, exc) 
                     stats["errors"] += 1
                     continue
-                except Exception as e:
-                    logger.warning("Fila %d: error inesperado al procesar fila: %s", line, e, exc_info=True)
+                except Exception as exc:
+                    logger.warning("Fila %d: error inesperado al procesar fila: %s", line, exc, exc_info=True)
                     stats["errors"] += 1
                     continue
 
@@ -348,18 +338,162 @@ class OpcServer:
         # Comprobar invariantes
         try:
             self._check_nodes_invariants()  
-        except AssertionError as e:
+        except AssertionError as exc:
             # Revierte estado si no cumple
             self._nodes = prev_nodes
-            raise OpcServerError(self._endpoint_url, "Invariantes de nodos incumplidas", original=e)
+            raise OpcServerError(self._endpoint_url, "Invariantes de nodos incumplidas", original=exc) from exc
+        
+        return stats
+    
+    def resolve_nodes(self):
+        '''
+        Añade nodos a partir de los alias cargados
+        '''
+
+        self._check_general_invariants()
+        
+        if not self.is_created:
+            self.create()
+
+        if not self.alias_is_loaded:
+            self.load_nodes_from_csv()
+
+        # Edicion en frio
+        if self.is_started:
+            self.stop()
+        
+        # Obtener estructura de nodos e indice                
+        assert self._server is not None
+        root = self._server.get_objects_node()
+        assert self._idx is not None
+        idx = self._idx
+
+        # En cada resolucion se borra lo anterior
+        try:
+            root = root.get_child([f"{idx}:root"])
+            self._server.delete_nodes([root], recursive=True)
+            logger.info("Eliminada carpeta raiz existente")
+        except Exception:
+            pass  # no existía
+
+        # Y se crea una carpeta raiz limpia
+        nodes = root.add_folder(idx, 'root')
+        self._resolved_nodes = []
+
+        # Estructuras de estado
+        stats = {"total_rows": 0, "resolved": 0, "duplicates": 0, "errors": 0}
+        
+        # Recorrer alias
+        assert self._nodes is not None
+        for node in self._nodes.values():
+            stats["total_rows"] +=1
+
+            # Los nodos estan organizados desde en carpetas en el CSV
+            try:
+                folder = nodes.get_child([f"{idx}:{node["folder"]}"])
+            except Exception:
+                # no existe → crear
+                folder = nodes.add_folder(idx, node["folder"])
+                logger.info("Carpeta %s creada.",node["folder"])
+            try:
+                var = folder.add_variable(
+                    ua.NodeId(node["nodeid"], idx),
+                    node["alias"], node["initial"],
+                    varianttype=node["datatype"])
+        
+                if node["writable"]:
+                    var.set_writable()
+
+                logger.info("Nodo %s añadido en la carpeta %s.",node["alias"],node["folder"])
+                self._resolved_nodes.append(var)
+                stats["resolved"] +=1
+            except UaError as exc: 
+
+                code = getattr(exc, "code", None) or getattr(exc, "status", None)
+
+                if code == ua.StatusCodes.BadNodeIdExists:
+                    logger.warning("Nodo existente: %s ", node["alias"])
+                    stats["duplicates"] += 1
+                    continue
+
+                logger.exception("Nodo %s: error UA al añadir variable (status=%s)", node["alias"], code)
+                stats["errors"] += 1
+                continue
+        
+            except Exception:
+                logger.exception("Nodo %s: error inesperado al añadir variable", node["alias"])
+                stats["errors"] += 1
+                continue
+
+        # Arrancar el servidor automaticamente
+        if not self.is_started:
+            self.start()
+
+        logger.info(
+            "Resolucion finalizada | total=%d, resolved=%d, duplicates=%d, errors=%d",
+            stats["total_rows"], stats["resolved"], stats["duplicates"], stats["errors"]
+            )
+
+        # Comprobar invariantes
+        try:
+            self._check_general_invariants()
+            self._check_nodes_resolved(stats=stats,root=nodes)
+        except AssertionError as exc:
+            # Borrar estado
+            self._resolve_nodes = []
+            self._server.delete_nodes([root], recursive=True)
+            raise OpcServerError(self._endpoint_url, "Invariantes de resolucion incumplidas", original=exc) from exc
+
         return stats
 
-    def export_nodes_to_json(self):
+    def export_nodes_to_json(self)->None:
         '''
-        Guarda en un JSON la información de los nodos para los clientes.
+        Exporta en un JSON la información de los nodos para los clientes.
         '''
-        pass
-    
+
+        if not self.nodes_resolved:
+            logging.exception("No existen nodos resueltos para exportar")
+            return
+
+        nodes_dict={}
+
+        # Actualizar el archivo de nodos por si varia el index
+        assert self._server is not None
+        root = self._server.get_root_node() # Cargar nodos añadidos
+        children = root.get_child(["0:Objects"])
+        build_node_dict(children, nodes_dict,self._idx)
+
+        # Reescribir el archivo
+        try:
+            with open(self._files_dir + self._nodes_output,"w",encoding="utf-8") as f:
+                json.dump(nodes_dict, f, ensure_ascii=False, indent=4)
+        except FileNotFoundError:
+            print("El archivo no existe.")
+            raise
+        except json.JSONDecodeError as e:
+            print("El archivo no contiene JSON válido:", e)
+            raise
+        except Exception as e:
+            print("Otro error inesperado:", e)
+            raise
+
+        return
+
+    def _register_index(self)->None:
+        '''
+        Registra el namespace y guarda el indice
+        '''
+
+        if self._server is None:
+            raise OpcServerError(self._endpoint_url, "Servidor no inicializado. Debe arrancar el servidor antes de registrar el namespace.")
+        try:
+            idx = self._server.register_namespace(self._namespace)
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url, f"Error al registrar namespace: {self._namespace}", original=exc) from exc
+        self._idx = idx
+        self._check_general_invariants()
+        logger.info(f"Espacio de nombres {self._namespace} registrado en {self._endpoint_url} con indice: {self._idx}")
+
     def _check_general_invariants(self) -> None:
         # Ciclo de vida coherente
         if self._server is None:
@@ -404,7 +538,16 @@ class OpcServer:
             # writable booleano (si existe)
             if "writable" in nd:
                 assert isinstance(nd["writable"], bool), f"writable no bool en {alias}"
-                
+
+    def _check_nodes_resolved(self,stats:dict, root: Node) -> None:
+        assert stats["total_rows"] == stats["resolved"] + stats["duplicates"] + stats["errors"]
+        assert self._resolved_nodes is not None
+        assert len(self._resolved_nodes) == stats["resolved"]
+        # pertenencia y namespace
+        for n in self._resolved_nodes:
+            assert n.nodeid.NamespaceIndex == self._idx
+            assert root in n.get_path()  # o comprueba padre recursivo
+
     @property
     def is_created(self) -> bool:
         '''Indica si el servidor esta creado'''
@@ -425,5 +568,10 @@ class OpcServer:
         '''Indica si se ha registado el espacio de nombres'''
         return self._idx is not None
 
+    @property
+    def nodes_resolved(self) -> bool:
+        '''Indica si el servidor tiene nodos resueltos'''
+        return bool(self._resolved_nodes)
+    
 if __name__=="__main__":
   pass
