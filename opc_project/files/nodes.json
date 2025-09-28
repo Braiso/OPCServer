@@ -21,6 +21,8 @@
     "Calidad_Tercio_3": "ns=2;s=Calidad_Tercio_3",
     "Fichero_Cargado_1": "ns=2;s=Fichero_Cargado_1",
     "Fichero_Cargado_2": "ns=2;s=Fichero_Cargado_2",
+    "ID_Pizarra_Out": "ns=2;s=ID_Pizarra_Out",
     "ID_Produccion_1": "ns=2;s=ID_Produccion_1",
-    "ID_Produccion_2": "ns=2;s=ID_Produccion_2"
+    "ID_Produccion_2": "ns=2;s=ID_Produccion_2",
+    "LiveBit_Out": "ns=2;s=LiveBit_Out"
 }

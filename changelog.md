@@ -31,10 +31,21 @@ y este proyecto sigue [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Metodo ``export_nodes_to_json``
   - Primeras pruebas
   - Editar formato para importar desde HALCON
-  - 
+
 ### Changued
 - Metodo ``resolve_nodes``:
   - Excepcion BadNodeExists
   - Gestionar carpetas Entradas/Salidas
 - Metodo ``stop``: limpieza o preservacion o de atributos
 
+## [Unreleaser] - 2025-09-28
+### Added
+- Metodo ``write_node``
+- Metodo ``read_node``
+### Changued
+- Compatibilidad *nodeid* con PLC
+  - Metodo ``resolver_nodes``
+  - Metodo ``export_nodes_to_json``
+
+### Tested
+- Lectura/Escritura de canales desde HALCON

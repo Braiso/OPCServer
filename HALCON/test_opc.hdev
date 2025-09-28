@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.2.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* --- Parámetros de conexión</c>
+<l>MyOpcUaServer := '127.0.0.1'</l>
+<l>MyOpcUaPortNumber := 4841</l>
+<l>MyOpcUaUrl := 'opc.tcp://' + MyOpcUaServer + ':' + MyOpcUaPortNumber</l>
+<c></c>
+<c>* --- Mensaje inicial (dev_disp_text) (Desarrollo/Visualización)</c>
+<l>dev_disp_text ('COMUNICANDO CON SERVIDOR', 'window', 100, 'center', 'black', [], [])</l>
+<c></c>
+<c>* --- Abrir dispositivo OPC UA (open_io_device) (Interfaz de E/S)</c>
+<l>open_io_device ('OPC_UA', MyOpcUaUrl, ['connect_timeout'], [5000], IoDeviceHandle)</l>
+<c></c>
+<c>* --- (Opcional) descubrir namespaces para confirmar ns=...</c>
+<l>get_io_device_param (IoDeviceHandle, 'namespaces', NsUris)</l>
+<c>* Visualización rápida</c>
+<l>dev_disp_text ('NAMESPACES: ' + NsUris, 'window', 120, 'center', 'black', [], [])</l>
+<c></c>
+<c>* --- Abrir canales de las variables (open_io_channel) (Interfaz de E/S)</c>
+<c>* Ajusta 'ns=2' si tu servidor devuelve otro índice.</c>
+<c></c>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Realizar_Vision',[],[],Realizar_Vision)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Espesor_Nominal',[],[],Espesor_Nominal)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Cargar_Fichero_1',[],[],Cargar_Fichero_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Cargar_Fichero_2',[],[],Cargar_Fichero_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Control_Esquinas_1',[],[],Control_Esquinas_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Control_Esquinas_2',[],[],Control_Esquinas_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Control_Perforaciones_1',[],[],Control_Perforaciones_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Control_Perforaciones_2',[],[],Control_Perforaciones_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Produccion',[],[],Produccion)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=ID_Pizarra',[],[],ID_Pizarra_In)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=LiveBit',[],[],LiveBit_In)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=COD_Error',[],[],COD_Error)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=COD_Error_2',[],[],COD_Error_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Vision_Realizada',[],[],Vision_Realizada)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Largo_Medido',[],[],Largo_Medido)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Ancho_Medido',[],[],Ancho_Medido)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Espesor_Medido',[],[],Espesor_Medido)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Tercio_Visible',[],[],Tercio_Visible)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Calidad_Tercio_1',[],[],Calidad_Tercio_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Calidad_Tercio_3',[],[],Calidad_Tercio_3)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Fichero_Cargado_1',[],[],Fichero_Cargado_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=Fichero_Cargado_2',[],[],Fichero_Cargado_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=ID_Pizarra_Out',[],[],ID_Pizarra_Out)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=ID_Produccion_1',[],[],ID_Produccion_1)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=ID_Produccion_2',[],[],ID_Produccion_2)</l>
+<l>open_io_channel (IoDeviceHandle,'ns=2;s=LiveBit_Out',[],[],LiveBit_Out)</l>
+<c></c>
+<c>* --- Lectura canales entrada (read_io_channel) (Interfaz de E/S)</c>
+<l>read_io_channel (Realizar_Vision,Realizar_Vision,_)</l>
+<l>read_io_channel (Espesor_Nominal,Espesor_Nominal,_)</l>
+<l>read_io_channel (Cargar_Fichero_1,Cargar_Fichero_1,_)</l>
+<l>read_io_channel (Cargar_Fichero_2,Cargar_Fichero_2,_)</l>
+<l>read_io_channel (Control_Esquinas_1,Control_Esquinas_1,_)</l>
+<l>read_io_channel (Control_Esquinas_2,Control_Esquinas_2,_)</l>
+<l>read_io_channel (Control_Perforaciones_1,Control_Perforaciones_1,_)</l>
+<l>read_io_channel (Control_Perforaciones_2,Control_Perforaciones_2,_)</l>
+<l>read_io_channel (Produccion,Produccion,_)</l>
+<l>read_io_channel (ID_Pizarra_In,ID_Pizarra_In,_)</l>
+<l>read_io_channel (LiveBit_In,LiveBit_In,_)</l>
+<c></c>
+<c>* --- Escritura canales salida (write_io_channel) (Interfaz de E/S)</c>
+<l>write_io_channel (COD_Error,99, _)</l>
+<l>write_io_channel (COD_Error_2,999, _)</l>
+<l>write_io_channel (Vision_Realizada,'true', _)</l>
+<l>write_io_channel (Largo_Medido,350, _)</l>
+<l>write_io_channel (Ancho_Medido,250, _)</l>
+<l>write_io_channel (Espesor_Medido,5, _)</l>
+<l>write_io_channel (Tercio_Visible,1, _)</l>
+<l>write_io_channel (Calidad_Tercio_1, 1, _)</l>
+<l>write_io_channel (Calidad_Tercio_3, -1, _)</l>
+<l>write_io_channel (Fichero_Cargado_1, 'true', _)</l>
+<l>write_io_channel (Fichero_Cargado_2, 'true', _)</l>
+<l>write_io_channel (ID_Pizarra_Out, 66, _)</l>
+<l>write_io_channel (ID_Produccion_1, 789, _)</l>
+<l>write_io_channel (ID_Produccion_2, 456, _)</l>
+<l>write_io_channel (LiveBit_Out, 'true', _)</l>
+<c></c>
+<c>* --- Cierre (close_io_channel / close_io_device) (Interfaz de E/S)</c>
+<l>close_io_device (IoDeviceHandle)</l>
+<c></c>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="Guardar_Img_Errores">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="path" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* DESCRIPCION:</c>
+<c>* Guarda una imagen en formato JPEG con marca de tiempo en el nombre.</c>
+<c>* Si el directorio contiene mas de 5000 imagenes, elimina la mas antigua</c>
+<c>* antes de guardar. Si el directorio no existe, muestra un mensaje de error.</c>
+<c></c>
+<c>* ENTRADAS (icono):</c>
+<c>* -Image : imagen a guardar</c>
+<c></c>
+<c>* ENTRADAS (control):</c>
+<c>* -path  : ruta del directorio donde guardar la imagen (termina en '/')</c>
+<c>* *******************************************************************************</c>
+<c></c>
+<c>* Obtener fecha y hora actual</c>
+<l>get_system_time (MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
+<l>tuple_string (Day, '.2d', Day)</l>
+<l>tuple_string (Month, '.2d', Month)</l>
+<l>tuple_string (Hour, '.2d', Hour)</l>
+<l>tuple_string (Minute, '.2d', Minute)</l>
+<l>tuple_string (Second, '.2d', Second)</l>
+<c></c>
+<c>* Formatear marca de tiempo</c>
+<l>now := Year + '_' + Month + '_' + Day + '(' + Hour + '_' + Minute + '_' + Second + ')'</l>
+<c></c>
+<c>* Listar archivos existentes en el directorio</c>
+<l>try</l>
+<l>list_image_files (path, 'jpg', [], Files)</l>
+<l>catch (Exception)</l>
+<l>    dev_get_window (WindowHandle)</l>
+<l>set_display_font (WindowHandle, 24, 'mono', 'true', 'false')</l>
+<c></c>
+<c>    * Si no existe el directorio, mostrar error</c>
+<l>    dev_disp_text ('Error guardado Imagenes', 'window', 'center', 'center', 'red', [], [])</l>
+<l>    dev_disp_text ('No existe directorio: ' + path, 'window', 375, 'center', 'red', [], [])</l>
+<l>    wait_seconds (2)</l>
+<l>    return ()</l>
+<l>endtry</l>
+<c></c>
+<l>tuple_length (Files, Length)</l>
+<c></c>
+<l>if (Length &gt; 5000)</l>
+<c></c>
+<c>    * Eliminar el archivo mas antiguo</c>
+<l>    tuple_sort (Files, Sorted)</l>
+<l>    try</l>
+<l>        delete_file (Sorted[0])</l>
+<l>        path := path + now</l>
+<l>        write_image (Image, 'jpeg 60', 0, path)</l>
+<l>    catch (Exception)</l>
+<l>    endtry</l>
+<c></c>
+<l>else</l>
+<c></c>
+<c>    * Guardar la imagen directamente</c>
+<l>    path := path + now</l>
+<l>    try</l>
+<l>        write_image (Image, 'jpeg 60', 0, path)</l>
+<l>    catch (Exception)</l>
+<l>    endtry</l>
+<c></c>
+<l>endif</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Guardar_Img_Errores">
+<parameters>
+<parameter id="Image"/>
+<parameter id="path"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="Visualizacion_Celda">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="Celda" base_type="ctrl" dimension="0"/>
+<par name="Version" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* DESCRIPCION:</c>
+<c>* Muestra informacion contextual sobre la ejecucion actual: numero de celda,</c>
+<c>* version del sistema, numero de ciclo y fecha/hora actual del sistema.</c>
+<c>* Se visualiza en la ventana activa.</c>
+<c></c>
+<c>* ENTRADAS (control):</c>
+<c>* - WindowHandle : identificador de la ventana de visualizacion</c>
+<c>* - Celda        : nombre o codigo identificador de la celda</c>
+<c>* - Version      : version del sistema o del software</c>
+<c></c>
+<c>* SALIDAS (control):</c>
+<c>* - Codigo_Error: reserva</c>
+<c>* *******************************************************************************</c>
+<c></c>
+<c>* Inicializar resultado de ejecucion de procedimiento</c>
+<l>Codigo_Error := 0</l>
+<l>dev_set_window (WindowHandle)</l>
+<c></c>
+<c>* Ajustar fuente para cabecera</c>
+<l>set_display_font (WindowHandle, 14, 'mono', 'true', 'false')</l>
+<c></c>
+<c>* Mostrar version y celda en parte superior de la ventana</c>
+<l>dev_disp_text ('VERSION : ' + Version, 'window', 'top', 'left', 'black', [], [])</l>
+<l>dev_disp_text ('CELDA : ' + Celda, 'window', 'top', 'right', 'black', [], [])</l>
+<c></c>
+<c>* Obtener fecha y hora actual del sistema</c>
+<l>get_system_time (MSecond, Second, Minute, Hour, Day, YDay, Month, Year)</l>
+<c></c>
+<c>* Mostrar fecha y hora en parte inferior izquierda</c>
+<l>dev_disp_text (Year + '/' + Month + '/' + Day + ' ' + Hour + ':' + Minute + ':' +Second, 'window', 'bottom', 'left', 'forest green', [], [])</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="Visualizacion_Celda">
+<parameters>
+<parameter id="Celda"/>
+<parameter id="Version"/>
+<parameter id="WindowHandle"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="set_display_font">
+<interface>
+<ic>
+<par name="WindowHandle" base_type="ctrl" dimension="0"/>
+<par name="Size" base_type="ctrl" dimension="0"/>
+<par name="Font" base_type="ctrl" dimension="0"/>
+<par name="Bold" base_type="ctrl" dimension="0"/>
+<par name="Slant" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<c>* This procedure sets the text font of the current window with</c>
+<c>* the specified attributes.</c>
+<c></c>
+<c>* Input parameters:</c>
+<c>* WindowHandle: The graphics window for which the font will be set</c>
+<c>* Size: The font size. If Size=-1, the default of 16 is used.</c>
+<c>* Bold: If set to 'true', a bold font is used</c>
+<c>* Slant: If set to 'true', a slanted font is used</c>
+<c></c>
+<l>get_system ('operating_system', OS)</l>
+<l>if (Size == [] or Size == -1)</l>
+<l>    Size := 16</l>
+<l>endif</l>
+<l>if (OS{0:2} == 'Win')</l>
+<c>    * Restore previous behavior</c>
+<l>    Size := int(1.13677 * Size)</l>
+<l>else</l>
+<l>    Size := int(Size)</l>
+<l>endif</l>
+<l>if (Font == 'Courier')</l>
+<l>    Fonts := ['Courier', 'Courier 10 Pitch', 'Courier New', 'CourierNew', 'Liberation Mono']</l>
+<l>elseif (Font == 'mono')</l>
+<l>    Fonts := ['Consolas', 'Menlo', 'Courier', 'Courier 10 Pitch', 'FreeMono', 'Liberation Mono', 'DejaVu Sans Mono']</l>
+<l>elseif (Font == 'sans')</l>
+<l>    Fonts := ['Luxi Sans', 'DejaVu Sans', 'FreeSans', 'Arial', 'Liberation Sans']</l>
+<l>elseif (Font == 'serif')</l>
+<l>    Fonts := ['Times New Roman', 'Luxi Serif', 'DejaVu Serif', 'FreeSerif', 'Utopia', 'Liberation Serif']</l>
+<l>else</l>
+<l>    Fonts := Font</l>
+<l>endif</l>
+<l>Style := ''</l>
+<l>if (Bold == 'true')</l>
+<l>    Style := Style + 'Bold'</l>
+<l>elseif (Bold != 'false')</l>
+<l>    Exception := 'Wrong value of control parameter Bold'</l>
+<l>    throw (Exception)</l>
+<l>endif</l>
+<l>if (Slant == 'true')</l>
+<l>    Style := Style + 'Italic'</l>
+<l>elseif (Slant != 'false')</l>
+<l>    Exception := 'Wrong value of control parameter Slant'</l>
+<l>    throw (Exception)</l>
+<l>endif</l>
+<l>if (Style == '')</l>
+<l>    Style := 'Normal'</l>
+<l>endif</l>
+<l>query_font (WindowHandle, AvailableFonts)</l>
+<l>Font := ''</l>
+<l>for Fdx := 0 to |Fonts| - 1 by 1</l>
+<l>    Indices := find(AvailableFonts,Fonts[Fdx])</l>
+<l>    if (|Indices| &gt; 0)</l>
+<l>        if (Indices[0] &gt;= 0)</l>
+<l>            Font := Fonts[Fdx]</l>
+<l>            break</l>
+<l>        endif</l>
+<l>    endif</l>
+<l>endfor</l>
+<l>if (Font == '')</l>
+<l>    throw ('Wrong value of control parameter Font')</l>
+<l>endif</l>
+<l>Font := Font + '-' + Style + '-' + Size</l>
+<l>set_font (WindowHandle, Font)</l>
+<l>return ()</l>
+</body>
+<docu id="set_display_font">
+<abstract lang="en_US">This procedure sets the text font of the current window with the specified attributes Size, Bold and Slant. 
+As font, the font name or one of the strings *'mono'*, *'sans'*, *'serif'* can be used.</abstract>
+<alternatives>
+<item>set_font</item>
+</alternatives>
+<attention lang="en_US">For *'mono'*, *'sans'*, and *'serif'*, it is assumed that at least one of the following fonts is installed on the system:
+
+*'mono'*: 'Consolas'*, *'Menlo'*, *'Courier'*, *'Courier 10 Pitch'*, *'FreeMono'*\
+*'sans'*: *'Luxi Sans'*, *'DejaVu Sans'*, *'FreeSans'*, *'Arial'*\
+*'serif'*: *'Times New Roman'*, *'Luxi Serif'*, *'DejaVu Serif'*, *'FreeSerif'*, *'Utopia'*</attention>
+<chapters lang="de_DE">
+<item>Graphik</item>
+<item>Text</item>
+</chapters>
+<chapters lang="en_US">
+<item>Graphics</item>
+<item>Text</item>
+</chapters>
+<chapters lang="ja_JP">
+<item>グラフィック</item>
+<item>テキスト</item>
+</chapters>
+<example lang="en_US">dev_open_window_fit_image(Image,0 , 0, 400, 400, WindowHandle)
+set_display_font(WindowHandle, 16, 'mono', 'true', 'false')
+disp_text (WindowHandle,'Hello World!', 'window', 10, 10, 'black', [], [])</example>
+<keywords lang="de_DE">
+<item>Schriftart (Font) setzen</item>
+</keywords>
+<keywords lang="en_US">
+<item>set font</item>
+</keywords>
+<library lang="en_US">MVTec Standard Procedures</library>
+<predecessor>
+<item>dev_open_window</item>
+<item>open_window</item>
+<item>dev_open_window_fit_image</item>
+<item>dev_open_window_fit_size</item>
+</predecessor>
+<see_also>
+<item>set_font</item>
+</see_also>
+<short>Set font independent of OS</short>
+<short lang="en_US">Set font independent of OS</short>
+<successor>
+<item>disp_text</item>
+<item>disp_continue_message</item>
+<item>set_tposition</item>
+<item>write_string</item>
+</successor>
+<parameters>
+<parameter id="Bold">
+<default_type>string</default_type>
+<default_value>'true'</default_value>
+<description lang="en_US">If set to 'true', a bold font is used</description>
+<multivalue>false</multivalue>
+<sem_type>attribute.value</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+<value_list>
+<item>'true'</item>
+<item>'false'</item>
+</value_list>
+</parameter>
+<parameter id="Font">
+<default_type>string</default_type>
+<default_value>'mono'</default_value>
+<description lang="en_US">The font name. Either 'mono', 'sans',  'serif' or a specific font name can be used. 'mono' will be mapped to 'Courier New' on Windows and to 'courier' on Linux. 'sans' will be mapped to 'Arial' on Windows and to 'helvetica' on Linux. 'serif' will be mapped to 'Times New Roman' on Windows and to 'times' on Linux.</description>
+<multivalue>false</multivalue>
+<sem_type>attribute.value</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+<values>
+<item>'mono'</item>
+<item>'sans'</item>
+<item>'serif'</item>
+</values>
+</parameter>
+<parameter id="Size">
+<default_type>integer</default_type>
+<default_value>16</default_value>
+<description lang="en_US">The font size on Windows systems. If Size=-1, the default of 16 is used.
+On Linux systems, ALL values are multiplied with 1.25 and then mapped to [11, 14, 17, 20, 25, 34].</description>
+<multivalue>false</multivalue>
+<sem_type>integer</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+<values>
+<item>[9, 11, 14, 16, 20, 27]</item>
+</values>
+</parameter>
+<parameter id="Slant">
+<default_type>string</default_type>
+<default_value>'false'</default_value>
+<description lang="en_US">If set to 'true', a slanted font is used</description>
+<sem_type>attribute.value</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+<value_list>
+<item>'true'</item>
+<item>'false'</item>
+</value_list>
+</parameter>
+<parameter id="WindowHandle">
+<default_type>integer</default_type>
+<description lang="en_US">The window handle of the window, where the font will be set</description>
+<mixed_type>false</mixed_type>
+<sem_type>window</sem_type>
+<type_list>
+<item>integer</item>
+</type_list>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+<procedure name="list_image_files">
+<interface>
+<ic>
+<par name="ImageDirectory" base_type="ctrl" dimension="0"/>
+<par name="Extensions" base_type="ctrl" dimension="0"/>
+<par name="Options" base_type="ctrl" dimension="0"/>
+</ic>
+<oc>
+<par name="ImageFiles" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* This procedure returns all files in a given directory</c>
+<c>* with one of the suffixes specified in Extensions.</c>
+<c></c>
+<c>* Input parameters:</c>
+<c>* ImageDirectory: Directory or a tuple of directories with images.</c>
+<c>*    If a directory is not found locally, the respective directory</c>
+<c>*    is searched under %HALCONIMAGES%/ImageDirectory.</c>
+<c>*    See the Installation Guide for further information</c>
+<c>*    in case %HALCONIMAGES% is not set.</c>
+<c>* Extensions: A string tuple containing the extensions to be found</c>
+<c>*    e.g. ['png','tif',jpg'] or others</c>
+<c>* If Extensions is set to 'default' or the empty string '',</c>
+<c>*    all image suffixes supported by HALCON are used.</c>
+<c>* Options: as in the operator list_files, except that the 'files'</c>
+<c>*    option is always used. Note that the 'directories' option</c>
+<c>*    has no effect but increases runtime, because only files are</c>
+<c>*    returned.</c>
+<c></c>
+<c>* Output parameter:</c>
+<c>* ImageFiles: A tuple of all found image file names</c>
+<c></c>
+<l>if (Extensions == [] or Extensions == '' or Extensions == 'default')</l>
+<l>    Extensions := ['ima', 'tif', 'tiff', 'gif', 'bmp', 'jpg', 'jpeg', 'jp2', 'jxr', 'png', 'pcx', 'ras', 'xwd', 'pbm', 'pnm', 'pgm', 'ppm']</l>
+<c></c>
+<l>endif</l>
+<l>ImageFiles := []</l>
+<c>* Loop through all given image directories.</c>
+<l>for ImageDirectoryIndex := 0 to |ImageDirectory| - 1 by 1</l>
+<l>    ImageFilesTmp := []</l>
+<l>    CurrentImageDirectory := ImageDirectory[ImageDirectoryIndex]</l>
+<l>    if (CurrentImageDirectory == '')</l>
+<l>        CurrentImageDirectory := '.'</l>
+<l>    endif</l>
+<l>    get_system ('image_dir', HalconImages)</l>
+<l>    get_system ('operating_system', OS)</l>
+<l>    if (OS{0:2} == 'Win')</l>
+<l>        HalconImages := split(HalconImages,';')</l>
+<l>    else</l>
+<l>        HalconImages := split(HalconImages,':')</l>
+<l>    endif</l>
+<l>    Directories := CurrentImageDirectory</l>
+<l>    for Index := 0 to |HalconImages| - 1 by 1</l>
+<l>        Directories := [Directories,HalconImages[Index] + '/' + CurrentImageDirectory]</l>
+<l>    endfor</l>
+<l>    tuple_strlen (Directories, Length)</l>
+<l>    tuple_gen_const (|Length|, false, NetworkDrive)</l>
+<l>    if (OS{0:2} == 'Win')</l>
+<l>        for Index := 0 to |Length| - 1 by 1</l>
+<l>            if (strlen(Directories[Index]) &gt; 1)</l>
+<l>                tuple_str_first_n (Directories[Index], 1, Substring)</l>
+<l>                if (Substring == '//' or Substring == '\\\\')</l>
+<l>                    NetworkDrive[Index] := true</l>
+<l>                endif</l>
+<l>            endif</l>
+<l>        endfor</l>
+<l>    endif</l>
+<l>    ImageFilesTmp := []</l>
+<l>    for Index := 0 to |Directories| - 1 by 1</l>
+<l>        file_exists (Directories[Index], FileExists)</l>
+<l>        if (FileExists)</l>
+<l>            list_files (Directories[Index], ['files',Options], AllFiles)</l>
+<l>            ImageFilesTmp := []</l>
+<l>            for i := 0 to |Extensions| - 1 by 1</l>
+<l>                tuple_regexp_select (AllFiles, ['.*' + Extensions[i] + '$','ignore_case'], Selection)</l>
+<l>                ImageFilesTmp := [ImageFilesTmp,Selection]</l>
+<l>            endfor</l>
+<l>            tuple_regexp_replace (ImageFilesTmp, ['\\\\', 'replace_all'], '/', ImageFilesTmp)</l>
+<l>            if (NetworkDrive[Index])</l>
+<l>                tuple_regexp_replace (ImageFilesTmp, ['//', 'replace_all'], '/', ImageFilesTmp)</l>
+<l>                ImageFilesTmp := '/' + ImageFilesTmp</l>
+<l>            else</l>
+<l>                tuple_regexp_replace (ImageFilesTmp, ['//', 'replace_all'], '/', ImageFilesTmp)</l>
+<l>            endif</l>
+<l>            break</l>
+<l>        endif</l>
+<l>    endfor</l>
+<c>    * Concatenate the output image paths.</c>
+<l>    ImageFiles := [ImageFiles,ImageFilesTmp]</l>
+<l>endfor</l>
+<l>return ()</l>
+</body>
+<docu id="list_image_files">
+<abstract lang="en_US">This procedure returns all files in a given directory ImageDirectory with one of the suffixes specified in Extensions.
+
+It is possible to use a tuple with multiple directories as input ImageDirectory. If a directory is not found locally, the respective directory is searched under %HALCONIMAGES%/ImageDirectory. See the `Installation Guide` for further information in case %HALCONIMAGES% is not set.
+
+If Extensions is set to *'default'* or the empty string *''*, all image suffixes supported by HALCON are used.
+
+The parameter Options is used as in the operator &lt;op:list_files&gt; (see &lt;op:list_files&gt; for details), except that the *'files'* option is always used. Note that the *'directories'* option has no effect but increases runtime, because only files are returned.</abstract>
+<alternatives>
+<item>list_files</item>
+</alternatives>
+<chapters lang="de_DE">
+<item>Datei</item>
+<item>Sonstiges</item>
+</chapters>
+<chapters lang="en_US">
+<item>File</item>
+<item>Misc</item>
+</chapters>
+<chapters lang="ja_JP">
+<item>ファイル</item>
+<item>その他</item>
+</chapters>
+<example lang="en_US">list_image_files ('.',[] ,[] , ImageFiles)
+for Index := 1 to |ImageFiles|  by 1
+    read_image (Image,ImageFiles[Index-1])
+*     do something
+endfor</example>
+<keywords lang="de_DE">
+<item>Bilddateien auflisten</item>
+</keywords>
+<keywords lang="en_US">
+<item>list image files</item>
+</keywords>
+<library lang="en_US">MVTec Standard Procedures</library>
+<predecessor>
+<item>list_files</item>
+</predecessor>
+<see_also>
+<item>list_files</item>
+</see_also>
+<short>Get all image files under the given path</short>
+<short lang="en_US">Get all image files under the given path</short>
+<successor>
+<item>read_image</item>
+</successor>
+<parameters>
+<parameter id="Extensions">
+<default_type>string</default_type>
+<default_value>'default'</default_value>
+<description lang="en_US">A string tuple containing the extensions to be found e.g. ['png','tif',jpg'] or others</description>
+<mixed_type>false</mixed_type>
+<multivalue>optional</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+<values>
+<item>'ima'</item>
+<item>'bmp'</item>
+<item>'jpg'</item>
+<item>'png'</item>
+<item>'tiff'</item>
+<item>'tif'</item>
+<item>'gif'</item>
+<item>'jpeg'</item>
+<item>'pcx'</item>
+<item>'pgm'</item>
+<item>'ppm'</item>
+<item>'pbm'</item>
+<item>'xwd'</item>
+<item>'pnm'</item>
+</values>
+</parameter>
+<parameter id="ImageDirectory">
+<default_type>string</default_type>
+<description lang="en_US">The image directory</description>
+<mixed_type>false</mixed_type>
+<multivalue>optional</multivalue>
+<sem_type>filename.dir</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="ImageFiles">
+<default_type>string</default_type>
+<description lang="en_US">A tuple of all found image file names</description>
+<mixed_type>false</mixed_type>
+<multivalue>optional</multivalue>
+<sem_type>filename.read</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+</parameter>
+<parameter id="Options">
+<default_type>string</default_type>
+<default_value>[]</default_value>
+<description lang="en_US">Processing options</description>
+<multivalue>optional</multivalue>
+<sem_type>string</sem_type>
+<type_list>
+<item>string</item>
+</type_list>
+<values>
+<item>'recursive'</item>
+<item>'follow_links'</item>
+<item>'max_depth 5'</item>
+</values>
+</parameter>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

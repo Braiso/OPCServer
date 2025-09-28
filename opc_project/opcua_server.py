@@ -1,6 +1,6 @@
 from opcua import Server, ua, Node
 from typing import Any
-from .opcua_lib import validate_types,build_node_dict
+from .opcua_lib import validate_types,build_node_dict,OpcServerError
 import time,json,logging
 import csv
 from pathlib import Path
@@ -14,19 +14,6 @@ Funcionalidades por implementar:
 
 logger = logging.getLogger(__name__)
 __version__ = "0.1.0"
-
-class OpcServerError(RuntimeError):
-    """
-    Excepción base para todos los errores relacionados con OpcServer.
-
-    Hereda de RuntimeError, pero define un tipo específico para el dominio OPC.
-    Esto permite distinguir fácilmente, en bloques try/except, entre errores
-    de la librería estándar y los que provienen del cliente OPC.
-    """
-    def __init__(self, endpoint: str, message: str, original: Exception | None = None):
-        super().__init__(f"{message} (endpoint={endpoint})")
-        self.endpoint = endpoint
-        self.original = original
 
 class OpcServer:
 
@@ -440,11 +427,83 @@ class OpcServer:
             self._check_nodes_resolved(stats=stats,root=nodes)
         except AssertionError as exc:
             # Borrar estado
-            self._resolve_nodes = []
+            self._resolved_nodes = []
             self._server.delete_nodes([root], recursive=True)
             raise OpcServerError(self._endpoint_url, "Invariantes de resolucion incumplidas", original=exc) from exc
 
         return stats
+
+    def write_node(self,nodeid:str,value:Any) -> None: 
+        '''
+        Escribe un nodo
+        
+        Parameters
+        ----------
+        nodeid: str
+            nodeid del nodo 
+
+        Raises
+        ------
+        OpcServerError:
+            Error en la obtencion del nodo
+
+        OpcServerError:
+            Error en la escritura del nodo
+        '''
+
+        assert self._resolved_nodes is not None
+        assert self._server is not None
+        assert self._idx is not None
+
+        try:
+            node = self._server.get_node(ua.NodeId(nodeid, self._idx, ua.NodeIdType.String))
+            assert node in self._resolved_nodes
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,"Error en la obtencion del nodo en la escritura", original=exc) from exc
+
+        try:
+            node.set_value(value)
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,"Error en la escritura del nodo", original=exc) from exc
+        
+        logging.info(f'Escritura realizada en variable \'{nodeid}\' con valor \'{node.get_value()}\'')
+        return
+
+    def read_node(self,nodeid:str) -> None: 
+        '''
+        Lee un nodo
+        
+        Parameters
+        ----------
+        nodeid: str
+            nodeid del nodo 
+
+        Raises
+        ------
+        OpcServerError:
+            Error en la obtencion del nodo
+
+        OpcServerError:
+            Error en la lectura del nodo
+        '''
+
+        assert self._resolved_nodes is not None
+        assert self._server is not None
+        assert self._idx is not None
+        
+        try:
+            node = self._server.get_node(ua.NodeId(nodeid, self._idx, ua.NodeIdType.String))
+            assert node in self._resolved_nodes
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,"Error en la obtencion del nodo en la lectura", original=exc) from exc
+
+        try:
+            value=node.get_value()
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,"Error en la lectura del nodo", original=exc) from exc
+        
+        logging.info(f'Lectura realizada en variable \'{nodeid}\' con valor \'{value}\'')
+        return
 
     def export_nodes_to_json(self)->None:
         '''
@@ -463,20 +522,12 @@ class OpcServer:
         children = root.get_child(["0:Objects"])
         build_node_dict(children, nodes_dict,self._idx)
 
-        # Reescribir el archivo
+        # Escribir el archivo
         try:
             with open(self._files_dir + self._nodes_output,"w",encoding="utf-8") as f:
                 json.dump(nodes_dict, f, ensure_ascii=False, indent=4)
-        except FileNotFoundError:
-            print("El archivo no existe.")
-            raise
-        except json.JSONDecodeError as e:
-            print("El archivo no contiene JSON válido:", e)
-            raise
-        except Exception as e:
-            print("Otro error inesperado:", e)
-            raise
-
+        except Exception as exc:
+            raise OpcServerError(self._endpoint_url,"Error en la exportacion de nodos a JSON", original=exc) from exc 
         return
 
     def _register_index(self)->None:

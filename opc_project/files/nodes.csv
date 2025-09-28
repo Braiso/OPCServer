@@ -19,11 +19,11 @@ Largo_Medido,Largo_Medido,Double,0.0,ENTRADAS,1
 Ancho_Medido,Ancho_Medido,Double,0.0,ENTRADAS,1
 Espesor_Medido,Espesor_Medido,Double,0.0,ENTRADAS,1
 Tercio_Visible,Tercio_Visible,Byte,0,ENTRADAS,1
-Calidad_Tercio_1,Calidad_Tercio_1,Byte,0,ENTRADAS,1
-Calidad_Tercio_3,Calidad_Tercio_3,Byte,0,ENTRADAS,1
+Calidad_Tercio_1,Calidad_Tercio_1,SByte,0,ENTRADAS,1
+Calidad_Tercio_3,Calidad_Tercio_3,SByte,0,ENTRADAS,1
 Fichero_Cargado_1,Fichero_Cargado_1,Boolean,false,ENTRADAS,1
 Fichero_Cargado_2,Fichero_Cargado_2,Boolean,false,ENTRADAS,1
-ID_Pizarra_Out,ID_Pizarra,Int16,0,ENTRADAS,1
+ID_Pizarra_Out,ID_Pizarra_Out,Int16,0,ENTRADAS,1
 ID_Produccion_1,ID_Produccion_1,Int16,0,ENTRADAS,1
 ID_Produccion_2,ID_Produccion_2,Int16,0,ENTRADAS,1
-LiveBit_Out,LiveBit,Boolean,false,ENTRADAS,1
+LiveBit_Out,LiveBit_Out,Boolean,false,ENTRADAS,1

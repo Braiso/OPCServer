@@ -3,7 +3,6 @@ from opc_project.opcua_lib import setup_logging
 from opc_project.opcua_server import  OpcServer,__version__,logger
 import time,argparse
     
-
 # Parametros por defecto de constructor
 endpoint_url="opc.tcp://127.0.0.1:4841"
 namespace = "CAFERSA"
@@ -40,10 +39,15 @@ server = OpcServer(
     nodes_output_file=args.nodes_out
     )
 
-server.start()
+server.create()
+server.load_nodes_from_csv()
+server.resolve_nodes()
+server.export_nodes_to_json()
+
 try:
+    print('Servidor escuchando')
     while True:        
         time.sleep(1)
 except KeyboardInterrupt:
     print('Servidor desconectado')
-server.stop()
+server.stop(clean=True)

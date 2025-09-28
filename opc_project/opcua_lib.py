@@ -2,6 +2,19 @@ import logging,sys
 from typing import Any
 from opcua import ua
 
+class OpcServerError(RuntimeError):
+    """
+    Excepción base para todos los errores relacionados con OpcServer.
+
+    Hereda de RuntimeError, pero define un tipo específico para el dominio OPC.
+    Esto permite distinguir fácilmente, en bloques try/except, entre errores
+    de la librería estándar y los que provienen del cliente OPC.
+    """
+    def __init__(self, endpoint: str, message: str, original: Exception | None = None):
+        super().__init__(f"{message} (endpoint={endpoint})")
+        self.endpoint = endpoint
+        self.original = original
+
 def validate_types(node_line: dict[str,Any])->dict:  
     """
     Valida que 'datatype' sea soportado y que 'initial' concuerde con el tipo.
